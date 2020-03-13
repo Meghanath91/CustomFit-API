@@ -32,6 +32,7 @@ CREATE TABLE students
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   phone VARCHAR(10),
+  age INTEGER DEFAULT 0,
   avatar VARCHAR(255),
   goal VARCHAR(255),
   height INTEGER DEFAULT 0,
