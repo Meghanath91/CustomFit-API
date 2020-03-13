@@ -14,11 +14,19 @@ The following steps are only for _one_ of the group members to perform.
 
 ## Getting Started
 
+## Setting up local db 
+
+`CREATE ROLE fitness WITH LOGIN password 'fitness';
+CREATE DATABASE final OWNER fitness;`
+
+
+## Changes to the code 
+
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
 2. Update the .env file with your correct local information 
-  - username: `labber` 
-  - password: `labber` 
-  - database: `midterm`
+  - username: `fitness` 
+  - password: `fitness` 
+  - database: `final`
 3. Install dependencies: `npm i`
 4. Fix to binaries for sass: `npm rebuild node-sass`
 5. Reset database: `npm run db:reset`
