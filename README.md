@@ -24,8 +24,8 @@ CREATE DATABASE final OWNER fitness;`
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
 2. Update the .env file with your correct local information 
-  - username: `fitness` 
-  - password: `fitness` 
+  - username: `labber` 
+  - password: `labber` 
   - database: `final`
 3. Install dependencies: `npm i`
 4. Fix to binaries for sass: `npm rebuild node-sass`

@@ -51,34 +51,9 @@ CREATE TABLE custom_plans
   description VARCHAR(255),
   difficulty VARCHAR(255),
   type VARCHAR(255),
-  created_at TIMESTAMPTZ,
-
-);
-
-CREATE TABLE workout_exercises
-(
-  id SERIAL PRIMARY KEY NOT NULL,
-  custom_plan_id INTEGER REFERENCES custom_plans(id) ON DELETE CASCADE,
-  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE,
-
-  sets INTEGER,
-  reps INTEGER,
-  complete BOOLEAN FALSE
-  duration DECIMAL(4,2) NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ
 
 );
-
-CREATE TABLE history
-(
-  id SERIAL PRIMARY KEY NOT NULL,
-  workout_exercise_id INTEGER REFERENCES workout_exercises(id) ON DELETE CASCADE,
-
-  feedback_text VARCHAR(255),
-  feedback_video VARCHAR(255),
-  created_at TIMESTAMPTZ
-)
-
 
 CREATE TABLE exercises
 (
@@ -92,3 +67,31 @@ CREATE TABLE exercises
   created_at TIMESTAMPTZ
 
 );
+
+CREATE TABLE history
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  workout_exercise_id INTEGER REFERENCES workout_exercises(id) ON DELETE CASCADE,
+
+  feedback_text VARCHAR(255),
+  feedback_video VARCHAR(255),
+  created_at TIMESTAMPTZ
+);
+
+
+CREATE TABLE workout_exercises
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  custom_plan_id INTEGER REFERENCES custom_plans(id) ON DELETE CASCADE,
+  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE,
+
+  sets INTEGER,
+  reps INTEGER,
+  complete BOOLEAN,
+  duration DECIMAL(4,2) NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ
+
+);
+
+
+
