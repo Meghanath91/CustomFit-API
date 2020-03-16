@@ -1,5 +1,5 @@
 {
-  "name": "node-skeleton",
+  "name": "final",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -20,7 +20,8 @@
     "morgan": "^1.9.1",
     "node-sass-middleware": "^0.11.0",
     "pg": "^6.4.2",
-    "pg-native": "^3.0.0"
+    "pg-native": "^3.0.0",
+    "helmet": "^3.21.3"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
