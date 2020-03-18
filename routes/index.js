@@ -117,6 +117,7 @@ router.get("/exercises/:id",(req,res)=>{
   .then(result=>{
     res.json(result.rows)
   })
+  .catch(result =>console.log(error))
 })
 
 router.delete("/exercises/:id",(req,res)=>{
