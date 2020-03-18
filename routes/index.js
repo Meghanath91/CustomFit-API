@@ -3,6 +3,8 @@ const router = express.Router();
 const pool = require("../db/index");
 pool.connect();
 
+//**********************************trainer routes************************************//
+
 router.get("/trainers", (req, res) => {
   pool.query(`
     SELECT * FROM trainers;
@@ -12,18 +14,20 @@ router.get("/trainers", (req, res) => {
     });
 });
 
-// router.get("/trainers",(req,res)=>{
-//   const {name,email,password,phone,about,avatar,experience} =req.body
-//   pool.query(`
-//   INSERT INTO trainers (name, email, password, phone, about, avatar, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);
-//   `,[name, email, password, phone, about, avatar, experience]
-//   )
-//   .then(() => {
-//     response.json(`database:trainer ${request.params.id}created`);
-//   })
-//   .catch(error => console.log(error));
+router.post("/trainers",(req,res)=>{
+  const {name,email,password,phone,about,avatar,experience} =req.body
+  pool.query(`
+  INSERT INTO trainers (name, email, password, phone, about, avatar, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);
+  `,[name, email, password, phone, about, avatar, experience]
+  )
+  .then(() => {
+    res.json(`database:trainer ${request.params.id}created`);
+  })
+  .catch(error => console.log(error));
 
-// })
+})
+
+//********************************student routes****************************** */
 
 router.get("/students", (req, res) => {
   pool.query(`
@@ -34,6 +38,31 @@ router.get("/students", (req, res) => {
   })
 });
 
+router.get("/exercises/:id",(req,res)=>{
+  const id = parseInt(req.params.id)
+  pool.query(`
+  SELECT * FROM exercises WHERE id = $1;
+  `,[id])
+  .then(result=>{
+    res.json(result.rows)
+  })
+})
+
+router.post("/trainers",(req,res)=>{
+  const {name,email,password,phone,about,avatar,experience} =req.body
+  pool.query(`
+  INSERT INTO trainers (name, email, password, phone, about, avatar, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);
+  `,[name, email, password, phone, about, avatar, experience]
+  )
+  .then(() => {
+    res.json(`database:trainer ${request.params.id}created`);
+  })
+  .catch(error => console.log(error));
+
+})
+
+
+//************************************custom_plans***************************** */
 router.get("/custom_plans", (req, res) => {
   pool.query(`
   SELECT * FROM custom_plans;
@@ -43,6 +72,8 @@ router.get("/custom_plans", (req, res) => {
   })
 });
 
+
+//***********************************exercises*********************************** */
 router.get("/exercises", (req, res) => {
   pool.query(`
   SELECT * FROM exercises;
@@ -61,18 +92,21 @@ router.get("/exercises/:id",(req,res)=>{
     res.json(result.rows)
   })
 })
-// router.delete("/exercises/:id",(req,res)=>{
-//   const id = parseInt(req.params.id)
-//   pool.query(`
-//   DELETE FROM exercises WHERE id = $1
-//   `,[id])
-//   .then(() => {
-//     response.json(`database:exercise ${id}deleted`);
-//   })
-//   .catch(error => console.log(error));
-// }
-// )
 
+router.delete("/exercises/:id",(req,res)=>{
+  const id = parseInt(req.params.id)
+  pool.query(`
+  DELETE FROM exercises WHERE id = $1;
+  `,[id])
+  .then(() => {
+    response.json(`database:exercise ${id}deleted`);
+  })
+  .catch(error => console.log(error));
+}
+)
+
+
+//*****************************workout_exercises***************************** */
 router.get("/workout_exercises", (req, res) => {
   pool.query(`
   SELECT * FROM workout_exercises;
@@ -82,6 +116,8 @@ router.get("/workout_exercises", (req, res) => {
   })
 });
 
+
+//****************************history*************************************** */
 router.get("/history", (req, res) => {
   pool.query(`
   SELECT * FROM history;
