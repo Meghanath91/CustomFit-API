@@ -63,6 +63,7 @@ router.post("/students",(req,res)=>{
 
 
 //************************************custom_plans***************************** */
+
 router.get("/custom_plans", (req, res) => {
   pool.query(`
   SELECT * FROM custom_plans;
@@ -71,6 +72,31 @@ router.get("/custom_plans", (req, res) => {
     res.json(result.rows);
   })
 });
+
+router.get("/custom_plans/:id",(req,res)=>{
+  const id = parseInt(req.params.id)
+  pool.query(`
+  SELECT * FROM custom_plans WHERE id = $1;
+  `,[id])
+  .then(result=>{
+    res.json(result.rows)
+  })
+  .catch(error=>console.log(error));
+})
+
+router.post("/custom_plans",(req,res)=>{
+  const {student_id, trainer_id, title, description, difficulty, type} =req.body
+  pool.query(`
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text);
+
+  `,[student_id, trainer_id, title, description, difficulty, type]
+  )
+  .then(() => {
+    res.json(`custom_plan ${req.params.id}created`);
+  })
+  .catch(error => console.log(error));
+
+})
 
 
 //***********************************exercises*********************************** */
