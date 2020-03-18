@@ -17,6 +17,20 @@ router.get("/trainers", (req, res) => {
     });
 });
 
+router.get("/trainers/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  pool
+    .query(
+      `
+  SELECT * FROM trainers WHERE id = $1;
+  `,
+      [id]
+    )
+    .then(result => {
+      res.json(result.rows);
+    });
+});
+
 router.post("/trainers", (req, res) => {
   const { name, email, password, phone, about, avatar, experience } = req.body;
   pool
@@ -31,6 +45,24 @@ router.post("/trainers", (req, res) => {
     })
     .catch(error => console.log(error));
 });
+
+router.put("/trainers",(req,res) => {
+
+  const id = parseInt(req.params.id);
+  const { name, email, password, phone, about, avatar, experience } = req.body;
+  pool
+    .query(
+      `
+  UPDATE trainers SET name=$1, email=$2, password=$3, phone=$4, about=$5, avatar=$6, experience=$7 WHERE id =$8
+  `,
+      [name, email, password, phone, about, avatar, experience,id]
+    )
+    .then(() => {
+      res.json(`trainer ${request.params.id}updated`);
+    })
+    .catch(error => console.log(error));
+
+})
 
 //********************************student routes****************************** */
 
