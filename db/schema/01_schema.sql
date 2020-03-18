@@ -21,6 +21,7 @@ CREATE TABLE trainers
   phone VARCHAR(10),
   about VARCHAR(255),
   avatar VARCHAR(255),
+  image VARCHAR[][][],
   experience VARCHAR(255),
   created_at TIMESTAMPTZ
 );
