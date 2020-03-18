@@ -38,24 +38,24 @@ router.get("/students", (req, res) => {
   })
 });
 
-router.get("/exercises/:id",(req,res)=>{
+router.get("/students/:id",(req,res)=>{
   const id = parseInt(req.params.id)
   pool.query(`
-  SELECT * FROM exercises WHERE id = $1;
+  SELECT * FROM students WHERE id = $1;
   `,[id])
   .then(result=>{
     res.json(result.rows)
   })
 })
 
-router.post("/trainers",(req,res)=>{
-  const {name,email,password,phone,about,avatar,experience} =req.body
+router.post("/students",(req,res)=>{
+  const {name, email, password, phone, age, avatar, goal, height, weight} =req.body
   pool.query(`
-  INSERT INTO trainers (name, email, password, phone, about, avatar, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);
-  `,[name, email, password, phone, about, avatar, experience]
+  INSERT INTO students (name, email, password, phone, age, avatar, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::text, $8::integer, $9::integer);
+  `,[name, email, password, phone, age, avatar, goal, height, weight]
   )
   .then(() => {
-    res.json(`database:trainer ${request.params.id}created`);
+    res.json(`student ${request.params.id}created`);
   })
   .catch(error => console.log(error));
 
