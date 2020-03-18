@@ -46,8 +46,7 @@ router.post("/trainers", (req, res) => {
     .catch(error => console.log(error));
 });
 
-router.put("/trainers",(req,res) => {
-
+router.put("/trainers", (req, res) => {
   const id = parseInt(req.params.id);
   const { name, email, password, phone, about, avatar, experience } = req.body;
   pool
@@ -55,14 +54,13 @@ router.put("/trainers",(req,res) => {
       `
   UPDATE trainers SET name=$1, email=$2, password=$3, phone=$4, about=$5, avatar=$6, experience=$7 WHERE id =$8
   `,
-      [name, email, password, phone, about, avatar, experience,id]
+      [name, email, password, phone, about, avatar, experience, id]
     )
     .then(() => {
       res.json(`trainer ${request.params.id}updated`);
     })
     .catch(error => console.log(error));
-
-})
+});
 
 //********************************student routes****************************** */
 
@@ -113,6 +111,32 @@ router.post("/students", (req, res) => {
     )
     .then(() => {
       res.json(`student ${request.params.id}created`);
+    })
+    .catch(error => console.log(error));
+});
+
+router.put("/students", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    name,
+    email,
+    password,
+    phone,
+    age,
+    avatar,
+    goal,
+    height,
+    weight
+  } = req.body;
+  pool
+    .query(
+      `
+  UPDATE students SET name=$1, email=$2, password=$3, phone=$4, age=$5, avatar=$6, goal=$7, height=$8, weight=$9 WHERE id =$10
+  `,
+      [name, email, password, phone, age, avatar, goal, height, weight, id]
+    )
+    .then(() => {
+      res.json(`student ${request.params.id}updated`);
     })
     .catch(error => console.log(error));
 });
@@ -267,7 +291,6 @@ router.get("/history/:id", (req, res) => {
     })
     .catch(error => console.log(error));
 });
-
 
 router.post("/history", (req, res) => {
   const { workout_exercise_id, feedback_text, feedback_video } = req.body;
