@@ -264,6 +264,25 @@ router.get("/workout_exercises/:id", (req, res) => {
     .catch(error => console.log(error));
 });
 
+//this route is show workout_exercises for a particular student id
+router.get("/workout_exercises/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  pool
+    .query(
+      `
+      SELECT exercise_id as id,custom_plan_id,sets,reps,complete,duration
+      FROM workout_exercises
+      JOIN custom_plans ON custom_plans.id = custom_plan_id
+      WHERE student_id = $1;
+  `,
+      [id]
+    )
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(error => console.log(error));
+});
+
 //****************************history*************************************** */
 router.get("/history", (req, res) => {
   pool
