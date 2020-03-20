@@ -30,6 +30,32 @@ router.get("/trainers/:id", (req, res) => {
       res.json(result.rows);
     });
 });
+//
+router.post("/trainers/login",(req,res)=>{
+  // console.log("this is req.body",req.body.params.email)
+  pool.query(
+    `SELECT * FROM trainers WHERE email =$1 `,[req.body.params.email]
+  ).then(data=>{
+    if(data.rows.length===1){
+      // console.log("data.rows====>",data.rows[0])
+      //check password data.rows with bcrypt
+      const user = data.rows[0]
+      // console("")
+      req.session.user_id= user.id
+      // console.log("req.session.user.id==>",req.session.user_id)
+      res.json(user)
+      console.log(user,"this is user passed to front end")
+    } else {
+      res.status(401);
+      res.end();
+
+    }
+  })
+})
+
+
+
+// axios.post('/login', {username: this.state.username, password: this.state.password})
 
 router.post("/trainers", (req, res) => {
   const { name, email, password, phone, about, avatar, experience } = req.body;
@@ -75,6 +101,29 @@ router.get("/students", (req, res) => {
       res.json(result.rows);
     });
 });
+
+router.post("/students/login",(req,res)=>{
+  // console.log("this is req.body",req.body.params.email)
+  pool.query(
+    `SELECT * FROM students WHERE email =$1 `,[req.body.params.email]
+  ).then(data=>{
+    if(data.rows.length===1){
+      // console.log("data.rows====>",data.rows[0])
+      //check password data.rows with bcrypt
+      const user = data.rows[0]
+      // console("")
+      req.session.user_id= user.id
+      // console.log("req.session.user.id==>",req.session.user_id)
+      res.json(user)
+      console.log(user,"this is user passed to front end")
+    } else {
+      res.status(401);
+      res.end();
+
+    }
+  })
+})
+
 
 router.get("/students/:id", (req, res) => {
   const id = parseInt(req.params.id);
