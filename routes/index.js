@@ -31,29 +31,26 @@ router.get("/trainers/:id", (req, res) => {
     });
 });
 //
-router.post("/trainers/login",(req,res)=>{
+router.post("/trainers/login", (req, res) => {
   // console.log("this is req.body",req.body.params.email)
-  pool.query(
-    `SELECT * FROM trainers WHERE email =$1 `,[req.body.params.email]
-  ).then(data=>{
-    if(data.rows.length===1){
-      // console.log("data.rows====>",data.rows[0])
-      //check password data.rows with bcrypt
-      const user = data.rows[0]
-      // console("")
-      req.session.user_id= user.id
-      // console.log("req.session.user.id==>",req.session.user_id)
-      res.json(user)
-      console.log(user,"this is user passed to front end")
-    } else {
-      res.status(401);
-      res.end();
-
-    }
-  })
-})
-
-
+  pool
+    .query(`SELECT * FROM trainers WHERE email =$1 `, [req.body.params.email])
+    .then(data => {
+      if (data.rows.length === 1) {
+        // console.log("data.rows====>",data.rows[0])
+        //check password data.rows with bcrypt
+        const user = data.rows[0];
+        // console("")
+        req.session.user_id = user.id;
+        // console.log("req.session.user.id==>",req.session.user_id)
+        res.json(user);
+        console.log(user, "this is user passed to front end");
+      } else {
+        res.status(401);
+        res.end();
+      }
+    });
+});
 
 // axios.post('/login', {username: this.state.username, password: this.state.password})
 
@@ -102,28 +99,23 @@ router.get("/students", (req, res) => {
     });
 });
 
-router.post("/students/login",(req,res)=>{
-  // console.log("this is req.body",req.body.params.email)
-  pool.query(
-    `SELECT * FROM students WHERE email =$1 `,[req.body.params.email]
-  ).then(data=>{
-    if(data.rows.length===1){
-      // console.log("data.rows====>",data.rows[0])
-      //check password data.rows with bcrypt
-      const user = data.rows[0]
-      // console("")
-      req.session.user_id= user.id
-      // console.log("req.session.user.id==>",req.session.user_id)
-      res.json(user)
-      console.log(user,"this is user passed to front end")
-    } else {
-      res.status(401);
-      res.end();
+router.post("/students/login", (req, res) => {
+  pool
+    .query(`SELECT * FROM students WHERE email =$1 `, [req.body.params.email])
+    .then(data => {
+      if (data.rows.length === 1) {
+        //check password data.rows with bcrypt
+        const user = data.rows[0];
 
-    }
-  })
-})
+        req.session.user_id = user.id;
 
+        res.json(user);
+      } else {
+        res.status(401);
+        res.end();
+      }
+    });
+});
 
 router.get("/students/:id", (req, res) => {
   const id = parseInt(req.params.id);
@@ -255,20 +247,38 @@ router.get("/exercises", (req, res) => {
     });
 });
 
-router.get("/exercises/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+router.post("/exercises/student", (req, res) => {
+  console.log("this is req.body",req.body.params.id)
   pool
     .query(
-      `
-  SELECT * FROM exercises WHERE id = $1;
-  `,
-      [id]
+      `SELECT *
+    FROM workout_exercises
+    JOIN custom_plans ON custom_plans.id = custom_plan_id
+    WHERE student_id = $1;
+     `,
+      [req.body.params.id]
     )
-    .then(result => {
-      res.json(result.rows);
-    })
-    .catch(result => console.log(error));
+    .then(data => {
+      const exercises = data.rows[0];
+      console.log("exercises passing to the front end ========>>", exercises);
+      res.json(exercises);
+    });
 });
+
+// router.get("/exercises/:id", (req, res) => {
+//   const id = parseInt(req.params.id);
+//   pool
+//     .query(
+//       `
+//   SELECT * FROM exercises WHERE id = $1;
+//   `,
+//       [id]
+//     )
+//     .then(result => {
+//       res.json(result.rows);
+//     })
+//     .catch(result => console.log(error));
+// });
 
 router.delete("/exercises/:id", (req, res) => {
   const id = parseInt(req.params.id);
