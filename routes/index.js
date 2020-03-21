@@ -30,29 +30,24 @@ router.get("/trainers/:id", (req, res) => {
       res.json(result.rows);
     });
 });
-//
+
 router.post("/trainers/login", (req, res) => {
-  // console.log("this is req.body",req.body.params.email)
+  // console.log({body: req.body})
   pool
-    .query(`SELECT * FROM trainers WHERE email =$1 `, [req.body.params.email])
+    .query(`SELECT * FROM trainers WHERE email = $1 `, [req.body.email])
     .then(data => {
       if (data.rows.length === 1) {
-        // console.log("data.rows====>",data.rows[0])
         //check password data.rows with bcrypt
         const user = data.rows[0];
-        // console("")
         req.session.user_id = user.id;
-        // console.log("req.session.user.id==>",req.session.user_id)
         res.json(user);
-        console.log(user, "this is user passed to front end");
+        // console.log(user, "this is user passed to front end");
       } else {
-        res.status(401);
-        res.end();
+        res.status(401).send('Unauthorized');
       }
     });
 });
 
-// axios.post('/login', {username: this.state.username, password: this.state.password})
 
 router.post("/trainers", (req, res) => {
   const { name, email, password, phone, about, avatar, experience } = req.body;
@@ -101,7 +96,7 @@ router.get("/students", (req, res) => {
 
 router.post("/students/login", (req, res) => {
   pool
-    .query(`SELECT * FROM students WHERE email =$1 `, [req.body.params.email])
+    .query(`SELECT * FROM students WHERE email =$1 `, [req.body.email])
     .then(data => {
       if (data.rows.length === 1) {
         //check password data.rows with bcrypt
@@ -247,38 +242,59 @@ router.get("/exercises", (req, res) => {
     });
 });
 
-router.post("/exercises/student", (req, res) => {
-  console.log("this is req.body",req.body.params.id)
+router.get("/exercises/student", (req, res) => {
+  console.log("this is req.body", req.body.params.id);
   pool
     .query(
-      `SELECT *
-    FROM workout_exercises
-    JOIN custom_plans ON custom_plans.id = custom_plan_id
-    WHERE student_id = $1;
+      `SELECT exercise_id as id,custom_plan_id,sets,reps,complete,duration
+      FROM workout_exercises
+      JOIN custom_plans ON custom_plans.id = custom_plan_id
+      WHERE student_id = $1;
      `,
       [req.body.params.id]
     )
     .then(data => {
-      const exercises = data.rows[0];
+      const exercises = data.rows;
       console.log("exercises passing to the front end ========>>", exercises);
       res.json(exercises);
     });
 });
 
-// router.get("/exercises/:id", (req, res) => {
-//   const id = parseInt(req.params.id);
-//   pool
-//     .query(
-//       `
-//   SELECT * FROM exercises WHERE id = $1;
-//   `,
-//       [id]
-//     )
-//     .then(result => {
-//       res.json(result.rows);
-//     })
-//     .catch(result => console.log(error));
-// });
+
+router.get("/student/:id/exercises", (req, res) => {
+  // getting all exercises for a student by joining on workout_exercises
+  pool.query(
+    `SELECT exercises.*
+    FROM exercises
+    JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
+    JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
+    JOIN students ON students.id = custom_plans.student_id
+  WHERE student_id = $1;
+   `,
+    [req.params.id]
+  )
+  .then(data => {
+    const exercises = data.rows;
+    console.log("exercises passing to the front end ========>>", exercises);
+    res.json(exercises);
+  });
+});
+
+router.post("/exercises/exercise", (req, res) => {
+  // const id = parseInt(req.params.id);
+  pool
+    .query(
+      `
+  SELECT * FROM exercises WHERE id = $1;
+  `,
+      [req.body.params.id]
+    )
+    .then(data => {
+      console.log("exercises passing to the front end ========>>", data.rows);
+      res.json(data.rows);
+    })
+    .catch(error => console.log(error));
+});
 
 router.delete("/exercises/:id", (req, res) => {
   const id = parseInt(req.params.id);
