@@ -5,6 +5,13 @@ pool.connect();
 
 //**********************************trainer routes************************************//
 
+router.post('/logout',(req,res)=>{
+  req.session.user_id=null;
+  res.send({});
+})
+
+
+
 router.get("/trainers", (req, res) => {
   pool
     .query(

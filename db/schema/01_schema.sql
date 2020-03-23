@@ -48,7 +48,7 @@ CREATE TABLE custom_plans
   student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
   trainer_id INTEGER REFERENCES trainers(id) ON DELETE CASCADE,
 
-  title VARCHAR(255) NOT NULL,
+  title VARCHAR(255) ,
   description VARCHAR(255),
   difficulty VARCHAR(255),
   type VARCHAR(255),
