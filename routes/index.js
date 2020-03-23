@@ -49,14 +49,14 @@ router.post("/trainers/login", (req, res) => {
 });
 
 
-router.post("/trainers", (req, res) => {
-  const { name, email, password, phone, about, avatar, experience } = req.body;
+router.post("/trainers/register", (req, res) => {
+  const { name, email, password, about, experience } = req.body;
   pool
     .query(
       `
-  INSERT INTO trainers (name, email, password, phone, about, avatar, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text);
+  INSERT INTO trainers (name, email, password, about, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text);
   `,
-      [name, email, password, phone, about, avatar, experience]
+      [name, email, password, about, experience]
     )
     .then(() => {
       res.json(`database:trainer ${request.params.id}created`);
@@ -126,14 +126,13 @@ router.get("/students/:id", (req, res) => {
     });
 });
 
-router.post("/students", (req, res) => {
+router.post("/students/register", (req, res) => {
+  console.log("this req.body in /register", req)
   const {
     name,
     email,
     password,
-    phone,
     age,
-    avatar,
     goal,
     height,
     weight
@@ -141,12 +140,12 @@ router.post("/students", (req, res) => {
   pool
     .query(
       `
-  INSERT INTO students (name, email, password, phone, age, avatar, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::text, $8::integer, $9::integer);
+  INSERT INTO students (name, email, password, age, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::integer, $5::text, $6::integer, $7::integer);
   `,
-      [name, email, password, phone, age, avatar, goal, height, weight]
+      [name, email, password, age, goal, height, weight]
     )
     .then(() => {
-      res.json(`student ${request.params.id}created`);
+      // res.json(`student ${request.body.id}created`);
     })
     .catch(error => console.log(error));
 });
