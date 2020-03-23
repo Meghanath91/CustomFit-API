@@ -51,15 +51,15 @@ router.post("/trainers/login", (req, res) => {
 
 router.post("/trainers/register", (req, res) => {
   const { name, email, password, about, experience } = req.body;
-  pool
-    .query(
+  pool.query(
       `
   INSERT INTO trainers (name, email, password, about, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text);
   `,
       [name, email, password, about, experience]
     )
     .then(() => {
-      res.json(`database:trainer ${request.params.id}created`);
+      res.json("new trainer registered")
+      console.log("new trainer register")
     })
     .catch(error => console.log(error));
 });
@@ -95,8 +95,7 @@ router.get("/students", (req, res) => {
 });
 
 router.post("/students/login", (req, res) => {
-  pool
-    .query(`SELECT * FROM students WHERE email =$1 `, [req.body.email])
+  pool.query(`SELECT * FROM students WHERE email =$1 `, [req.body.email])
     .then(data => {
       if (data.rows.length === 1) {
         //check password data.rows with bcrypt
@@ -137,14 +136,15 @@ router.post("/students/register", (req, res) => {
     height,
     weight
   } = req.body;
-  pool
-    .query(
+  pool.query(
       `
   INSERT INTO students (name, email, password, age, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::integer, $5::text, $6::integer, $7::integer);
   `,
       [name, email, password, age, goal, height, weight]
     )
     .then(() => {
+      res.json("new student joined")
+      console.log("new student joined to db")
       // res.json(`student ${request.body.id}created`);
     })
     .catch(error => console.log(error));
