@@ -212,7 +212,7 @@ router.get("/custom_plans/:id", (req, res) => {
     .catch(error => console.log(error));
 });
 
-router.post("/custom_plans", (req, res) => {
+router.post("/custom_plans/create", (req, res) => {
   const {
     student_id,
     trainer_id,
@@ -230,7 +230,8 @@ router.post("/custom_plans", (req, res) => {
       [student_id, trainer_id, title, description, difficulty, type]
     )
     .then(() => {
-      res.json(`custom_plan ${req.params.id}created`);
+      console.log("customplan created")
+      res.json(`custom_plan created`);
     })
     .catch(error => console.log(error));
 });
