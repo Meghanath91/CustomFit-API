@@ -275,7 +275,7 @@ router.get("/exercises", (req, res) => {
 });
 
 router.get("/exercises/student", (req, res) => {
-  console.log("this is req.body", req.body.params.id);
+  // console.log("this is req.body", req.body.params.id);
   pool
     .query(
       `SELECT exercise_id as id,custom_plan_id,sets,reps,complete,duration
