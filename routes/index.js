@@ -102,7 +102,7 @@ router.get("/trainer/:id/students", (req, res) => {
     )
     .then(data => {
       const students = data.rows;
-      console.log("studentss passing to the front end ========>>", students);
+      console.log("students passing to the front end ========>>", students);
       res.json(students);
     })
     .catch(error => console.log(error))
