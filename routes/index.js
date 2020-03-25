@@ -87,6 +87,29 @@ router.put("/trainers", (req, res) => {
     .catch(error => console.log(error));
 });
 
+
+
+router.get("/trainer/:id/students", (req, res) => {
+  // getting all studentss for a trainer by joining on custom plans
+  pool.query(
+      `SELECT students.*
+    FROM students
+    JOIN custom_plans ON custom_plans.student_id = students.id
+    JOIN trainers ON trainers.id = custom_plans.trainer_id
+  WHERE trainer_id = $1;
+   `,
+      [req.params.id]
+    )
+    .then(data => {
+      const students = data.rows;
+      console.log("studentss passing to the front end ========>>", students);
+      res.json(students);
+    })
+    .catch(error => console.log(error))
+});
+
+
+
 //********************************student routes****************************** */
 
 router.get("/students", (req, res) => {
