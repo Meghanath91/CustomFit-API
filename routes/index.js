@@ -287,7 +287,7 @@ router.get("/exercises/student", (req, res) => {
     )
     .then(data => {
       const exercises = data.rows;
-      console.log("exercises passing to the front end ========>>", exercises);
+      console.log("exercises passing to the front end ========>>");
       res.json(exercises);
     })
     .catch(error => console.log(error));
@@ -308,7 +308,7 @@ router.get("/student/:id/exercises", (req, res) => {
   )
   .then(data => {
     const exercises = data.rows;
-    console.log("exercises passing to the front end ========>>", exercises);
+    console.log("exercises passing to the front end ========>>");
     res.json(exercises);
   })
   .catch(error => console.log(error));
@@ -324,7 +324,7 @@ router.post("/exercises/exercise", (req, res) => {
       [req.body.params.id]
     )
     .then(data => {
-      console.log("exercises passing to the front end ========>>", data.rows);
+      console.log("exercises passing to the front end ========>>");
       res.json(data.rows);
     })
     .catch(error => console.log(error));
