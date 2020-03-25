@@ -5,12 +5,10 @@ pool.connect();
 
 //**********************************trainer routes************************************//
 
-router.post('/logout',(req,res)=>{
-  req.session.user_id=null;
+router.post("/logout", (req, res) => {
+  req.session.user_id = null;
   res.send({});
-})
-
-
+});
 
 router.get("/trainers", (req, res) => {
   pool
@@ -50,23 +48,23 @@ router.post("/trainers/login", (req, res) => {
         res.json(user);
         // console.log(user, "this is user passed to front end");
       } else {
-        res.status(401).send('Unauthorized');
+        res.status(401).send("Unauthorized");
       }
     });
 });
 
-
 router.post("/trainers/register", (req, res) => {
   const { name, email, password, about, experience } = req.body;
-  pool.query(
+  pool
+    .query(
       `
   INSERT INTO trainers (name, email, password, about, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text);
   `,
       [name, email, password, about, experience]
     )
     .then(() => {
-      res.json("new trainer registered")
-      console.log("new trainer register")
+      res.json("new trainer registered");
+      console.log("new trainer register");
     })
     .catch(error => console.log(error));
 });
@@ -87,6 +85,25 @@ router.put("/trainers", (req, res) => {
     .catch(error => console.log(error));
 });
 
+router.get("/trainer/:id/students", (req, res) => {
+  // getting all studentss for a trainer by joining on custom plans
+  pool
+    .query(
+      `SELECT students.*
+    FROM students
+    JOIN custom_plans ON custom_plans.student_id = students.id
+    JOIN trainers ON trainers.id = custom_plans.trainer_id
+  WHERE trainer_id = $1;
+   `,
+      [req.params.id]
+    )
+    .then(data => {
+      const students = data.rows;
+      console.log("studentss passing to the front end ========>>", students);
+      res.json(students);
+    });
+});
+
 //********************************student routes****************************** */
 
 router.get("/students", (req, res) => {
@@ -102,7 +119,8 @@ router.get("/students", (req, res) => {
 });
 
 router.post("/students/login", (req, res) => {
-  pool.query(`SELECT * FROM students WHERE email =$1 `, [req.body.email])
+  pool
+    .query(`SELECT * FROM students WHERE email =$1 `, [req.body.email])
     .then(data => {
       if (data.rows.length === 1) {
         //check password data.rows with bcrypt
@@ -133,25 +151,18 @@ router.get("/students/:id", (req, res) => {
 });
 
 router.post("/students/register", (req, res) => {
-  console.log("this req.body in /register", req)
-  const {
-    name,
-    email,
-    password,
-    age,
-    goal,
-    height,
-    weight
-  } = req.body;
-  pool.query(
+  console.log("this req.body in /register", req);
+  const { name, email, password, age, goal, height, weight } = req.body;
+  pool
+    .query(
       `
   INSERT INTO students (name, email, password, age, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::integer, $5::text, $6::integer, $7::integer);
   `,
       [name, email, password, age, goal, height, weight]
     )
     .then(() => {
-      res.json("new student joined")
-      console.log("new student joined to db")
+      res.json("new student joined");
+      console.log("new student joined to db");
       // res.json(`student ${request.body.id}created`);
     })
     .catch(error => console.log(error));
@@ -221,15 +232,16 @@ router.post("/custom_plans/create", (req, res) => {
     difficulty,
     type
   } = req.body;
-  pool.query(
+  pool
+    .query(
       `
   INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text) RETURNING id;
 
   `,
       [student_id, trainer_id, title, description, difficulty, type]
     )
-    .then(data=> {
-      console.log("customplan created",data.rows[0].id)
+    .then(data => {
+      console.log("customplan created", data.rows[0].id);
       res.json(data.rows[0].id);
     })
     .catch(error => console.log(error));
@@ -266,24 +278,24 @@ router.get("/exercises/student", (req, res) => {
     });
 });
 
-
 router.get("/student/:id/exercises", (req, res) => {
   // getting all exercises for a student by joining on workout_exercises
-  pool.query(
-    `SELECT exercises.*
+  pool
+    .query(
+      `SELECT exercises.*
     FROM exercises
     JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
     JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
     JOIN students ON students.id = custom_plans.student_id
   WHERE student_id = $1;
    `,
-    [req.params.id]
-  )
-  .then(data => {
-    const exercises = data.rows;
-    console.log("exercises passing to the front end ========>>", exercises);
-    res.json(exercises);
-  });
+      [req.params.id]
+    )
+    .then(data => {
+      const exercises = data.rows;
+      console.log("exercises passing to the front end ========>>", exercises);
+      res.json(exercises);
+    });
 });
 
 router.post("/exercises/exercise", (req, res) => {
@@ -320,12 +332,7 @@ router.delete("/exercises/:id", (req, res) => {
 //*****************************workout_exercises***************************** */
 
 router.post("/workout_exercises/create", (req, res) => {
-  const {
-    custom_plan_id,
-    exercise_id,
-    sets,
-    reps,
-  } = req.body;
+  const { custom_plan_id, exercise_id, sets, reps } = req.body;
   pool
     .query(
       `
@@ -334,13 +341,12 @@ router.post("/workout_exercises/create", (req, res) => {
   `,
       [custom_plan_id, exercise_id, sets, reps]
     )
-    .then(()=> {
-      console.log("exercise created")
+    .then(() => {
+      console.log("exercise created");
       res.json(`exercise created`);
     })
     .catch(error => console.log(error));
 });
-
 
 router.get("/workout_exercises", (req, res) => {
   pool
