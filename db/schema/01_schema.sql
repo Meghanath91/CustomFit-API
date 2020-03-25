@@ -80,7 +80,7 @@ CREATE TABLE workout_exercises
   sets INTEGER,
   reps INTEGER,
   complete BOOLEAN,
-  duration DECIMAL(4,2) NOT NULL DEFAULT 0,
+  duration DECIMAL(4,2) DEFAULT 0,
   created_at TIMESTAMPTZ
 
 );

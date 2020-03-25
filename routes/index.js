@@ -221,17 +221,16 @@ router.post("/custom_plans/create", (req, res) => {
     difficulty,
     type
   } = req.body;
-  pool
-    .query(
+  pool.query(
       `
-  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text);
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text) RETURNING id;
 
   `,
       [student_id, trainer_id, title, description, difficulty, type]
     )
-    .then(() => {
-      console.log("customplan created")
-      res.json(`custom_plan created`);
+    .then(data=> {
+      console.log("customplan created",data.rows[0].id)
+      res.json(data.rows[0].id);
     })
     .catch(error => console.log(error));
 });
@@ -319,6 +318,30 @@ router.delete("/exercises/:id", (req, res) => {
 });
 
 //*****************************workout_exercises***************************** */
+
+router.post("/workout_exercises/create", (req, res) => {
+  const {
+    custom_plan_id,
+    exercise_id,
+    sets,
+    reps,
+  } = req.body;
+  pool
+    .query(
+      `
+  INSERT INTO workout_exercises (custom_plan_id, exercise_id, sets,reps) VALUES ($1::integer, $2::integer, $3::integer, $4::integer) RETURNING id;
+
+  `,
+      [custom_plan_id, exercise_id, sets, reps]
+    )
+    .then(()=> {
+      console.log("exercise created")
+      res.json(`exercise created`);
+    })
+    .catch(error => console.log(error));
+});
+
+
 router.get("/workout_exercises", (req, res) => {
   pool
     .query(
