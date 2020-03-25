@@ -5,10 +5,10 @@ pool.connect();
 
 //**********************************trainer routes************************************//
 
-router.post('/logout',(req,res)=>{
-  req.session.user_id=null;
-  res.send({});
-})
+// router.post('/logout',(req,res)=>{
+//   req.session.user_id=null;
+//   res.send({});
+// })
 
 
 
@@ -21,7 +21,8 @@ router.get("/trainers", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/trainers/:id", (req, res) => {
@@ -35,11 +36,12 @@ router.get("/trainers/:id", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.post("/trainers/login", (req, res) => {
-  // console.log({body: req.body})
+
   pool
     .query(`SELECT * FROM trainers WHERE email = $1 `, [req.body.email])
     .then(data => {
@@ -48,11 +50,12 @@ router.post("/trainers/login", (req, res) => {
         const user = data.rows[0];
         req.session.user_id = user.id;
         res.json(user);
-        // console.log(user, "this is user passed to front end");
+        console.log("trainer loggedin")
       } else {
         res.status(401).send('Unauthorized');
       }
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 
@@ -82,7 +85,7 @@ router.put("/trainers", (req, res) => {
       [name, email, password, phone, about, avatar, experience, id]
     )
     .then(() => {
-      res.json(`trainer ${request.params.id}updated`);
+      res.json(`trainer updated`);
     })
     .catch(error => console.log(error));
 });
@@ -93,19 +96,19 @@ router.get("/trainer/:id/students", (req, res) => {
   // getting all studentss for a trainer by joining on custom plans
   pool.query(
       `SELECT students.*
-    FROM students
-    JOIN custom_plans ON custom_plans.student_id = students.id
-    JOIN trainers ON trainers.id = custom_plans.trainer_id
-  WHERE trainer_id = $1;
+        FROM students
+        JOIN custom_plans ON custom_plans.student_id = students.id
+        JOIN trainers ON trainers.id = custom_plans.trainer_id
+      WHERE trainer_id = $1;
    `,
       [req.params.id]
     )
     .then(data => {
       const students = data.rows;
-      console.log("students passing to the front end ========>>", students);
+      console.log("students passing to the front end");
       res.json(students);
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log("failed to fetch all students for a trainer_id",error))
 });
 
 
@@ -121,7 +124,8 @@ router.get("/students", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.post("/students/login", (req, res) => {
@@ -138,7 +142,8 @@ router.post("/students/login", (req, res) => {
         res.status(401);
         res.end();
       }
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/students/:id", (req, res) => {
@@ -152,7 +157,8 @@ router.get("/students/:id", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.post("/students/register", (req, res) => {
@@ -217,7 +223,8 @@ router.get("/custom_plans", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/custom_plans/:id", (req, res) => {
@@ -268,7 +275,8 @@ router.get("/exercises", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/exercises/student", (req, res) => {
@@ -286,7 +294,8 @@ router.get("/exercises/student", (req, res) => {
       const exercises = data.rows;
       console.log("exercises passing to the front end ========>>", exercises);
       res.json(exercises);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 
@@ -306,7 +315,8 @@ router.get("/student/:id/exercises", (req, res) => {
     const exercises = data.rows;
     console.log("exercises passing to the front end ========>>", exercises);
     res.json(exercises);
-  });
+  })
+  .catch(error => console.log(error));
 });
 
 router.post("/exercises/exercise", (req, res) => {
@@ -374,7 +384,8 @@ router.get("/workout_exercises", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/workout_exercises/:id", (req, res) => {
@@ -421,7 +432,8 @@ router.get("/history", (req, res) => {
     )
     .then(result => {
       res.json(result.rows);
-    });
+    })
+    .catch(error => console.log(error));
 });
 
 router.get("/history/:id", (req, res) => {
@@ -455,8 +467,6 @@ router.post("/history", (req, res) => {
     .catch(error => console.log(error));
 });
 
-// router.get("/", (req, res) => {
-//   res.send("Hello world");
-// });
+
 
 module.exports = router;
