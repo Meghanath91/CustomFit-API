@@ -95,7 +95,7 @@ router.put("/trainers", (req, res) => {
 router.get("/trainer/:id/students", (req, res) => {
   // getting all studentss for a trainer by joining on custom plans
   pool.query(
-      `SELECT students.*
+      `SELECT DISTINCT students.*
         FROM students
         JOIN custom_plans ON custom_plans.student_id = students.id
         JOIN trainers ON trainers.id = custom_plans.trainer_id
@@ -206,6 +206,29 @@ router.put("/students", (req, res) => {
     .catch(error => console.log(error));
 });
 
+
+//************************************Subscriptions***************************** *//
+
+router.post("/subscriptions/subscribe", (req, res) => {
+  const {
+    student_id,
+    trainer_id,
+  } = req.body;
+  pool
+    .query(
+      `
+  INSERT INTO subscriptions (student_id, trainer_id) VALUES ($1::integer, $2::integer) RETURNING id;
+
+  `,
+      [student_id, trainer_id]
+    )
+    .then(data => {
+      console.log("new subscription created", data.rows[0].id);
+      res.json(data.rows[0].id);
+    })
+    .catch(error => console.log(error));
+});
+
 //************************************custom_plans***************************** */
 
 router.get("/custom_plans", (req, res) => {
@@ -259,6 +282,33 @@ router.post("/custom_plans/create", (req, res) => {
     })
     .catch(error => console.log(error));
 });
+
+
+// router.put("/custom_plans/update", (req, res) => {
+//   // const id = parseInt(req.params.id);
+//   const {
+//     student_id,
+//     trainer_id,
+//     title,
+//     description,
+//     difficulty,
+//     type,
+//     id
+
+//   } = req.body;
+//   pool
+//     .query(
+//       `
+//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7
+//   `,
+//       [student_id, trainer_id, title, description, difficulty,type, id]
+//     )
+//     .then(() => {
+//       res.json(`customplan updated`);
+//     })
+//     .catch(error => console.log(error));
+// });
+
 
 //***********************************exercises*********************************** */
 router.get("/exercises", (req, res) => {

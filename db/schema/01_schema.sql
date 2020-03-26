@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS trainers
 CASCADE;
 DROP TABLE IF EXISTS students
 CASCADE;
+DROP TABLE IF EXISTS subscriptions
+CASCADE;
 DROP TABLE IF EXISTS custom_plans
 CASCADE;
 DROP TABLE IF EXISTS workout_exercises
@@ -41,6 +43,16 @@ CREATE TABLE students
   created_at TIMESTAMPTZ
 );
 
+CREATE TABLE subscriptions
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+  trainer_id INTEGER REFERENCES trainers(id) ON DELETE CASCADE,
+
+  content VARCHAR(255) DEFAULT 'New Student Subscribed',
+  seen BOOLEAN DEFAULT FALSE
+
+);
 
 CREATE TABLE custom_plans
 (
