@@ -20,7 +20,7 @@ CREATE TABLE trainers
   password VARCHAR(255) NOT NULL,
   phone VARCHAR(10),
   about VARCHAR(255),
-  avatar VARCHAR(255),
+  avatar VARCHAR(255) DEFAULT '/pictures/trainer1.png',
   image VARCHAR[][][],
   experience VARCHAR(255),
   created_at TIMESTAMPTZ
