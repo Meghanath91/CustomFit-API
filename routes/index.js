@@ -209,6 +209,51 @@ router.put("/students", (req, res) => {
 
 //************************************Subscriptions***************************** *//
 
+
+router.put("/subscriptions/:id", (req, res) => {
+  // getting all subscriptions for a student by joining on workout_exercises
+  const {
+    seen
+  }= req.body
+  pool
+    .query(
+      `
+      UPDATE subscriptions SET seen=$1  WHERE id =$2
+
+   `,
+    [seen,req.params.id]
+  )
+  .then(data => {
+    // const exercises = data.rows;
+    console.log("notifications  seen ========>>");
+    res.json("seen updated");
+  })
+  .catch(error => console.log(error));
+});
+
+
+router.get("/trainer/:id/subscriptions", (req, res) => {
+  // getting all subscriptions for a student by joining on workout_exercises
+  pool
+    .query(
+      `SELECT subscriptions.*
+        FROM subscriptions
+        JOIN trainers ON trainers.id = subscriptions.trainer_id
+      WHERE trainer_id = $1;
+   `,
+    [req.params.id]
+  )
+  .then(data => {
+    const exercises = data.rows;
+    console.log("exercises passing to the front end ========>>");
+    res.json(exercises);
+  })
+  .catch(error => console.log(error));
+});
+
+
+
+
 router.post("/subscriptions/subscribe", (req, res) => {
   const {
     student_id,
@@ -228,6 +273,8 @@ router.post("/subscriptions/subscribe", (req, res) => {
     })
     .catch(error => console.log(error));
 });
+
+
 
 //************************************custom_plans***************************** */
 
@@ -283,7 +330,45 @@ router.post("/custom_plans/create", (req, res) => {
     .catch(error => console.log(error));
 });
 
+router.get("/student/:id/custom_plans", (req, res) => {
+  // getting all custom_plans for a student by joining on custom_plans
+  pool
+    .query(
+      `SELECT DISTINCT custom_plans.*
+        FROM custom_plans
+        JOIN students ON students.id = custom_plans.student_id
+        WHERE student_id = $1;
+   `,
+    [req.params.id]
+  )
+  .then(data => {
+    const custom_plan = data.rows;
+    console.log("custom Plan passing to the front end ========>>");
+    res.json(custom_plan);
+  })
+  .catch(error => console.log(error));
+});
 
+router.get("/custom_plan/:id/exercises", (req, res) => {
+  // getting all exercises for a custom_plan by joining on custom_plans
+  pool
+    .query(
+      `SELECT exercises.*
+      FROM exercises
+      JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
+      JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
+
+    WHERE custom_plan_id = $1;
+   `,
+    [req.params.id]
+  )
+  .then(data => {
+    const exercises = data.rows;
+    console.log("custom Plan exercises passing to the front end ========>>");
+    res.json(exercises);
+  })
+  .catch(error => console.log(error));
+});
 // router.put("/custom_plans/update", (req, res) => {
 //   // const id = parseInt(req.params.id);
 //   const {
