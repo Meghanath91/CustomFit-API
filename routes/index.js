@@ -245,7 +245,7 @@ router.get("/trainer/:id/subscriptions", (req, res) => {
   )
   .then(data => {
     const exercises = data.rows;
-    console.log("exercises passing to the front end ========>>");
+    console.log("subscriptions passing to the front end ========>>");
     res.json(exercises);
   })
   .catch(error => console.log(error));
