@@ -64,7 +64,11 @@ CREATE TABLE custom_plans
   description VARCHAR(255),
   difficulty VARCHAR(255),
   type VARCHAR(255),
-  created_at TIMESTAMPTZ
+  created_at TIMESTAMPTZ,
+  sets INTEGER,
+  reps INTEGER,
+  complete BOOLEAN DEFAULT FALSE
+
 
 );
 

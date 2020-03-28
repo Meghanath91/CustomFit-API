@@ -313,15 +313,17 @@ router.post("/custom_plans/create", (req, res) => {
     title,
     description,
     difficulty,
-    type
+    type,
+    sets,
+    reps
   } = req.body;
   pool
     .query(
       `
-  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text) RETURNING id;
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer) RETURNING id;
 
   `,
-      [student_id, trainer_id, title, description, difficulty, type]
+      [student_id, trainer_id, title, description, difficulty, type, sets, reps]
     )
     .then(data => {
       console.log("customplan created", data.rows[0].id);
@@ -369,6 +371,28 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
   })
   .catch(error => console.log(error));
 });
+
+
+router.put("/custom_plans", (req, res) => {
+  // const id = parseInt(req.params.id);
+  console.log(req.body)
+  const {
+    complete,
+    id
+
+  } = req.body;
+  pool.query(
+      `
+  UPDATE custom_plans SET complete=$1 WHERE id=$2
+  `,[complete,id]
+    )
+    .then(result => {
+      console.log("custom plan completed",result);
+      res.json(`customplan completed`);
+    })
+    .catch(error => console.log(error));
+});
+
 // router.put("/custom_plans/update", (req, res) => {
 //   // const id = parseInt(req.params.id);
 //   const {
@@ -384,7 +408,7 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
 //   pool
 //     .query(
 //       `
-//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7
+//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7;
 //   `,
 //       [student_id, trainer_id, title, description, difficulty,type, id]
 //     )
@@ -483,14 +507,14 @@ router.delete("/exercises/:id", (req, res) => {
 //*****************************workout_exercises***************************** */
 
 router.post("/workout_exercises/create", (req, res) => {
-  const { custom_plan_id, exercise_id, sets, reps } = req.body;
+  const { custom_plan_id, exercise_id } = req.body;
   pool
     .query(
       `
-  INSERT INTO workout_exercises (custom_plan_id, exercise_id, sets,reps) VALUES ($1::integer, $2::integer, $3::integer, $4::integer) RETURNING id;
+  INSERT INTO workout_exercises (custom_plan_id, exercise_id) VALUES ($1::integer, $2::integer) RETURNING id;
 
   `,
-      [custom_plan_id, exercise_id, sets, reps]
+      [custom_plan_id, exercise_id]
     )
     .then(() => {
       console.log("exercise created");
