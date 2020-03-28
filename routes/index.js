@@ -313,15 +313,17 @@ router.post("/custom_plans/create", (req, res) => {
     title,
     description,
     difficulty,
-    type
+    type,
+    sets,
+    reps
   } = req.body;
   pool
     .query(
       `
-  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text) RETURNING id;
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer) RETURNING id;
 
   `,
-      [student_id, trainer_id, title, description, difficulty, type]
+      [student_id, trainer_id, title, description, difficulty, type, sets, reps]
     )
     .then(data => {
       console.log("customplan created", data.rows[0].id);
@@ -483,14 +485,14 @@ router.delete("/exercises/:id", (req, res) => {
 //*****************************workout_exercises***************************** */
 
 router.post("/workout_exercises/create", (req, res) => {
-  const { custom_plan_id, exercise_id, sets, reps } = req.body;
+  const { custom_plan_id, exercise_id } = req.body;
   pool
     .query(
       `
-  INSERT INTO workout_exercises (custom_plan_id, exercise_id, sets,reps) VALUES ($1::integer, $2::integer, $3::integer, $4::integer) RETURNING id;
+  INSERT INTO workout_exercises (custom_plan_id, exercise_id) VALUES ($1::integer, $2::integer) RETURNING id;
 
   `,
-      [custom_plan_id, exercise_id, sets, reps]
+      [custom_plan_id, exercise_id]
     )
     .then(() => {
       console.log("exercise created");
