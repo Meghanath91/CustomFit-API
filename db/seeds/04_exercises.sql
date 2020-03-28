@@ -25,4 +25,12 @@ INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, 
 INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Flutter Kicks', '1. Lie down on your back. 2. Lift legs off floor slightly and flutter straight legs', 'ABS', 'BodyWeight', '/pictures/flutterKick.gif', 'https://i.imgur.com/eotOxLd.gif');
 
 
+INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Bench Press', '1. Lie down on your back. 2. Lift weight off rack and lower to chest then lift weight using chest and arms', 'Chest', 'Weightlifting', '/pictures/benchPress.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmQ7Z31VN8hPGLnRca2dS6t7H6ZvQwmkeMkPFffT7nzsj5/bench-press-1.gif');
+
+INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Shoulder Press', '1. Stand straight up  2. Lift barbell above head in balanced motion', 'Shoulders', 'Weightlifting', '/pictures/flutterKick.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmPFcbrUJtShWo3mhQfcyrqGJoXLmrNNt9EzNZuFcvSSyw/how-to-do-the-military-press.gif');
+
+INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Squat', '1. Balance weight on back. 2. Go down in controlled motion', 'Legs', 'Weightlifting', '/pictures/squat.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmPoefRo5g5iF7MqMjAD74Ym1PQaQBd5Rv4TYvLGHxgm5a/unnamed%20(7).gif');
+
+INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Deadlift', '1. Bend over and grab bar. 2. Lift barbell using legs and hips.', 'Legs', 'Weightlifting', '/pictures/deadlift.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQma441WzenLjX1djEpx1YuMvk3efPvZMoYyywSy48X9iMm/unnamed%20(9).gif');
+
 
