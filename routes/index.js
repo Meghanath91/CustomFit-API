@@ -79,6 +79,7 @@ router.post("/trainers/register", (req, res) => {
 router.put("/trainers", (req, res) => {
 
   const { name, about, experience, id } = req.body;
+  console.log("name is",name,id);
   pool
     .query(
       `
