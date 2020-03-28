@@ -371,6 +371,28 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
   })
   .catch(error => console.log(error));
 });
+
+
+router.put("/custom_plans", (req, res) => {
+  // const id = parseInt(req.params.id);
+  console.log(req.body)
+  const {
+    complete,
+    id
+
+  } = req.body;
+  pool.query(
+      `
+  UPDATE custom_plans SET complete=$1 WHERE id=$2
+  `,[complete,id]
+    )
+    .then(result => {
+      console.log("custom plan completed",result);
+      res.json(`customplan completed`);
+    })
+    .catch(error => console.log(error));
+});
+
 // router.put("/custom_plans/update", (req, res) => {
 //   // const id = parseInt(req.params.id);
 //   const {
@@ -386,7 +408,7 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
 //   pool
 //     .query(
 //       `
-//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7
+//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7;
 //   `,
 //       [student_id, trainer_id, title, description, difficulty,type, id]
 //     )

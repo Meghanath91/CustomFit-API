@@ -67,7 +67,7 @@ CREATE TABLE custom_plans
   created_at TIMESTAMPTZ,
   sets INTEGER,
   reps INTEGER,
-  completed BOOLEAN DEFAULT FALSE
+  complete BOOLEAN DEFAULT FALSE
 
 
 );
