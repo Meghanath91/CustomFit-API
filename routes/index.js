@@ -74,18 +74,20 @@ router.post("/trainers/register", (req, res) => {
     .catch(error => console.log(error));
 });
 
+
+
 router.put("/trainers", (req, res) => {
-  const id = parseInt(req.params.id);
-  const { name, email, password, phone, about, avatar, experience } = req.body;
+
+  const { name, about, experience, id } = req.body;
   pool
     .query(
       `
-  UPDATE trainers SET name=$1, email=$2, password=$3, phone=$4, about=$5, avatar=$6, experience=$7 WHERE id =$8
-  `,
-      [name, email, password, phone, about, avatar, experience, id]
+  UPDATE trainers SET name=$1, about=$2, experience=$3 WHERE id=$4
+  `,[name, about, experience, id]
     )
-    .then(() => {
-      res.json(`trainer updated`);
+    .then(result => {
+      console.log("trainer details updated",result)
+      res.json(`trainer details updated`);
     })
     .catch(error => console.log(error));
 });
@@ -211,7 +213,7 @@ router.put("/students", (req, res) => {
 
 
 router.put("/subscriptions/:id", (req, res) => {
-  // getting all subscriptions for a student by joining on workout_exercises
+  // update the susbscriptions
   const {
     seen
   }= req.body
