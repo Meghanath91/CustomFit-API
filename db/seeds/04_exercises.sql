@@ -29,7 +29,7 @@ INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, 
 
 INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Shoulder Press', '1. Stand straight up  2. Lift barbell above head in balanced motion', 'Shoulders', 'Weightlifting', '/pictures/flutterKick.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmPFcbrUJtShWo3mhQfcyrqGJoXLmrNNt9EzNZuFcvSSyw/how-to-do-the-military-press.gif');
 
-INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Squat', '1. Balance weight on back. 2. Go down in controlled motion', 'Legs', 'Weightlifting', '/pictures/squat.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmPoefRo5g5iF7MqMjAD74Ym1PQaQBd5Rv4TYvLGHxgm5a/unnamed%20(7).gif');
+INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Squat', '1. Balance weight on back. 2. Go down in controlled motion', 'Legs', 'Weightlifting', '/pictures/BBsquat.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQmPoefRo5g5iF7MqMjAD74Ym1PQaQBd5Rv4TYvLGHxgm5a/unnamed%20(7).gif');
 
 INSERT INTO exercises (name, explanation, body_part, type, thumbnail_photo_url, content_video) VALUES ('Deadlift', '1. Bend over and grab bar. 2. Lift barbell using legs and hips.', 'Legs', 'Weightlifting', '/pictures/deadlift.gif', 'https://steemitimages.com/0x0/https://cdn.steemitimages.com/DQma441WzenLjX1djEpx1YuMvk3efPvZMoYyywSy48X9iMm/unnamed%20(9).gif');
 
