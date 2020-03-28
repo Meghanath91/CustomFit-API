@@ -82,7 +82,7 @@ router.put("/trainers", (req, res) => {
   pool
     .query(
       `
-  UPDATE trainers SET name=$1, about=$2, experience=$3 WHERE id=$4
+  UPDATE trainers SET name=$1, about=$2, experience=$3 WHERE id=$4;
   `,[name, about, experience, id]
     )
     .then(result => {
@@ -182,32 +182,55 @@ router.post("/students/register", (req, res) => {
     .catch(error => console.log(error));
 });
 
+// router.put("/students", (req, res) => {
+//   const id = parseInt(req.params.id);
+//   const {
+//     name,
+//     email,
+//     password,
+//     phone,
+//     age,
+//     avatar,
+//     goal,
+//     height,
+//     weight
+//   } = req.body;
+//   pool
+//     .query(
+//       `
+//   UPDATE students SET name=$1, email=$2, password=$3, phone=$4, age=$5, avatar=$6, goal=$7, height=$8, weight=$9 WHERE id =$10
+//   `,
+//       [name, email, password, phone, age, avatar, goal, height, weight, id]
+//     )
+//     .then(() => {
+//       res.json(`student ${request.params.id}updated`);
+//     })
+//     .catch(error => console.log(error));
+// });
+
 router.put("/students", (req, res) => {
-  const id = parseInt(req.params.id);
+  // const id = parseInt(req.params.id);
+
+  console.log("this is req.body",req.body)
   const {
     name,
-    email,
-    password,
-    phone,
-    age,
-    avatar,
     goal,
     height,
-    weight
+    weight,
+    id
+
   } = req.body;
-  pool
-    .query(
+  pool.query(
       `
-  UPDATE students SET name=$1, email=$2, password=$3, phone=$4, age=$5, avatar=$6, goal=$7, height=$8, weight=$9 WHERE id =$10
-  `,
-      [name, email, password, phone, age, avatar, goal, height, weight, id]
+  UPDATE students SET name=$1, goal=$2, height=$3, weight=$4 WHERE id=$5;
+  `,[name,goal,height,weight,id]
     )
-    .then(() => {
-      res.json(`student ${request.params.id}updated`);
+    .then(result => {
+      console.log("student details updated",result);
+      res.json(`student details updated`);
     })
     .catch(error => console.log(error));
 });
-
 
 //************************************Subscriptions***************************** *//
 
