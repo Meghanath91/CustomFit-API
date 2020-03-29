@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS history
 CASCADE;
 DROP TABLE IF EXISTS exercises
 CASCADE;
+DROP TABLE IF EXISTS weights
+CASCADE;
 
 
 CREATE TABLE trainers
@@ -112,4 +114,14 @@ CREATE TABLE history
   feedback_text VARCHAR(255),
   feedback_video VARCHAR(255),
   created_at TIMESTAMPTZ
+);
+
+CREATE TABLE weights
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+
+  weight INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ
+
 );

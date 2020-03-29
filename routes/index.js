@@ -183,31 +183,7 @@ router.post("/students/register", (req, res) => {
     .catch(error => console.log(error));
 });
 
-// router.put("/students", (req, res) => {
-//   const id = parseInt(req.params.id);
-//   const {
-//     name,
-//     email,
-//     password,
-//     phone,
-//     age,
-//     avatar,
-//     goal,
-//     height,
-//     weight
-//   } = req.body;
-//   pool
-//     .query(
-//       `
-//   UPDATE students SET name=$1, email=$2, password=$3, phone=$4, age=$5, avatar=$6, goal=$7, height=$8, weight=$9 WHERE id =$10
-//   `,
-//       [name, email, password, phone, age, avatar, goal, height, weight, id]
-//     )
-//     .then(() => {
-//       res.json(`student ${request.params.id}updated`);
-//     })
-//     .catch(error => console.log(error));
-// });
+
 
 router.put("/students", (req, res) => {
   // const id = parseInt(req.params.id);
@@ -419,31 +395,6 @@ router.put("/custom_plans", (req, res) => {
     .catch(error => console.log(error));
 });
 
-// router.put("/custom_plans/update", (req, res) => {
-//   // const id = parseInt(req.params.id);
-//   const {
-//     student_id,
-//     trainer_id,
-//     title,
-//     description,
-//     difficulty,
-//     type,
-//     id
-
-//   } = req.body;
-//   pool
-//     .query(
-//       `
-//   UPDATE custom_plans SET student_id=$1, trainer_id=$2, title=$3, description=$4, difficulty=$5, type=$6  WHERE id =$7;
-//   `,
-//       [student_id, trainer_id, title, description, difficulty,type, id]
-//     )
-//     .then(() => {
-//       res.json(`customplan updated`);
-//     })
-//     .catch(error => console.log(error));
-// });
-
 
 //***********************************exercises*********************************** */
 router.get("/exercises", (req, res) => {
@@ -641,6 +592,43 @@ router.post("/history", (req, res) => {
     .catch(error => console.log(error));
 });
 
+
+//***********************************weights*********************************** */
+router.post("/weights/create", (req, res) => {
+  const { student_id, weight,date } = req.body;
+  pool
+    .query(
+      `
+  INSERT INTO workout_exercises (student_id, weight,date) VALUES ($1::integer, $2::integer, $3::date) ;
+
+  `,
+      [student_id, weight,date]
+    )
+    .then(() => {
+      console.log("new weight updated");
+      res.json(`weight updated in db`);
+    })
+    .catch(error => console.log(error));
+});
+
+router.get("/student/:id/weights", (req, res) => {
+  // getting all weight inputs for a student by joining on weights
+  pool
+    .query(
+      `SELECT weights.*
+        FROM weights
+        JOIN students ON students.id = weights.student_id
+        WHERE student_id = $1;
+   `,
+    [req.params.id]
+  )
+  .then(data => {
+    const custom_plan = data.rows;
+    console.log("custom Plan passing to the front end ========>>");
+    res.json(custom_plan);
+  })
+  .catch(error => console.log(error));
+});
 
 
 module.exports = router;
