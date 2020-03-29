@@ -599,7 +599,7 @@ router.post("/weights/create", (req, res) => {
   pool
     .query(
       `
-  INSERT INTO workout_exercises (student_id, weight,date) VALUES ($1::integer, $2::integer, $3::date) ;
+  INSERT INTO weights (student_id, weight,date) VALUES ($1::integer, $2::integer, $3::text) ;
 
   `,
       [student_id, weight,date]

@@ -120,7 +120,7 @@ CREATE TABLE weights
 (
   id SERIAL PRIMARY KEY NOT NULL,
   student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
-
+  date VARCHAR(255),
   weight INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ
 
