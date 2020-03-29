@@ -38,7 +38,7 @@ CREATE TABLE students
   password VARCHAR(255) NOT NULL,
   phone VARCHAR(10),
   age INTEGER DEFAULT 0,
-  avatar VARCHAR(255),
+  avatar VARCHAR(255) DEFAULT '/pictures/trainer1.png',
   goal VARCHAR(255),
   height INTEGER DEFAULT 0,
   weight INTEGER DEFAULT 0,
