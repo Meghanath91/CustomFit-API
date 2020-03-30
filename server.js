@@ -4,10 +4,11 @@ const helmet = require('helmet');
 const route = require('./routes/index')
 const cors = require('cors');
 const cookieSession = require('cookie-session')
-
+const twilioRoutes = require("./routes/twilioRoutes");
 const app = express();
 const port = process.env.PORT || 8080;
-
+const twilioSubscribe = require("./apis/twilioSubscribe")
+const twilioCreate = require("./apis/twilioCreate")
 
 app.use(helmet());
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.use(cookieSession({
 
 
 app.use('/', route)
+app.use('/twilio',twilioRoutes())
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

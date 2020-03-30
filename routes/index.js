@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db/index");
+const twilioSubscribe = require("../apis/twilioSubscribe");
+const twilioCreate = require("../apis/twilioCreate");
+
 pool.connect();
 
 //**********************************trainer routes************************************//
@@ -260,18 +263,22 @@ router.post("/subscriptions/subscribe", (req, res) => {
   const {
     student_id,
     trainer_id,
+    student_name
   } = req.body;
   pool
     .query(
       `
-  INSERT INTO subscriptions (student_id, trainer_id) VALUES ($1::integer, $2::integer) RETURNING id;
+  INSERT INTO subscriptions (student_id, trainer_id,student_name) VALUES ($1::integer, $2::integer, $3::TEXT) RETURNING *;
 
   `,
-      [student_id, trainer_id]
+      [student_id, trainer_id,student_name]
     )
     .then(data => {
-      console.log("new subscription created", data.rows[0].id);
+
+
+      console.log("new subscription created", data.rows[0].student_name);
       res.json(data.rows[0].id);
+      twilioSubscribe(data.rows[0].student_name);
     })
     .catch(error => console.log(error));
 });
@@ -317,19 +324,21 @@ router.post("/custom_plans/create", (req, res) => {
     difficulty,
     type,
     sets,
-    reps
+    reps,
+    trainer_name
   } = req.body;
   pool
     .query(
       `
-  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer) RETURNING id;
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps, trainer_name) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer, $9::text) RETURNING trainer_name;
 
   `,
-      [student_id, trainer_id, title, description, difficulty, type, sets, reps]
+      [student_id, trainer_id, title, description, difficulty, type, sets, reps, trainer_name]
     )
     .then(data => {
-      console.log("customplan created", data.rows[0].id);
-      res.json(data.rows[0].id);
+      console.log("customplan created", data.rows[0].trainer_name);
+      twilioCreate(data.rows[0].trainer_name)
+      res.json(data.rows[0].trainer_name);
     })
     .catch(error => console.log(error));
 });
