@@ -38,7 +38,7 @@ CREATE TABLE students
   password VARCHAR(255) NOT NULL,
   phone VARCHAR(10),
   age INTEGER DEFAULT 0,
-  avatar VARCHAR(255),
+  avatar VARCHAR(255) DEFAULT '/pictures/trainer1.png',
   goal VARCHAR(255),
   height INTEGER DEFAULT 0,
   weight INTEGER DEFAULT 0,
@@ -51,6 +51,7 @@ CREATE TABLE subscriptions
   student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
   trainer_id INTEGER REFERENCES trainers(id) ON DELETE CASCADE,
 
+  student_name VARCHAR(255),
   content VARCHAR(255) DEFAULT 'New Student Subscribed',
   seen BOOLEAN DEFAULT FALSE
 
@@ -69,8 +70,8 @@ CREATE TABLE custom_plans
   created_at TIMESTAMPTZ,
   sets INTEGER,
   reps INTEGER,
-  complete BOOLEAN DEFAULT FALSE
-
+  complete BOOLEAN DEFAULT FALSE,
+  trainer_name VARCHAR(255)
 
 );
 
