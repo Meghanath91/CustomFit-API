@@ -62,13 +62,13 @@ router.post("/trainers/login", (req, res) => {
 });
 
 router.post("/trainers/register", (req, res) => {
-  const { name, email, password, about, experience } = req.body;
+  const { name, email, password, about, experience, expertise } = req.body;
   pool
     .query(
       `
-  INSERT INTO trainers (name, email, password, about, experience) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text);
+  INSERT INTO trainers (name, email, password, about, experience, expertise) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text);
   `,
-      [name, email, password, about, experience]
+      [name, email, password, about, experience,expertise]
     )
     .then(() => {
       res.json("new trainer registered");
@@ -337,8 +337,8 @@ router.post("/custom_plans/create", (req, res) => {
     )
     .then(data => {
       console.log("customplan created", data.rows[0].trainer_name);
-      twilioCreate(data.rows[0].trainer_name)
       res.json(data.rows[0].id);
+      twilioCreate(data.rows[0].trainer_name)
     })
     .catch(error => console.log(error));
 });

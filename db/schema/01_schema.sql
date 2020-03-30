@@ -27,6 +27,7 @@ CREATE TABLE trainers
   avatar VARCHAR(255) DEFAULT '/pictures/trainer1.png',
   image VARCHAR[][][],
   experience VARCHAR(255),
+  expertise VARCHAR(255),
   created_at TIMESTAMPTZ
 );
 
