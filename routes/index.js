@@ -361,7 +361,6 @@ router.get("/student/:id/custom_plans", (req, res) => {
   })
   .catch(error => console.log(error));
 });
-
 router.get("/custom_plan/:id/exercises", (req, res) => {
   // getting all exercises for a custom_plan by joining on custom_plans
   pool
@@ -377,7 +376,7 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
   )
   .then(data => {
     const exercises = data.rows;
-    console.log("custom Plan exercises passing to the front end ========>>");
+    console.log("custom Plan exercises passing to the frontend ========>>");
     res.json(exercises);
   })
   .catch(error => console.log(error));
