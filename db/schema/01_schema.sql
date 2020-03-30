@@ -43,6 +43,7 @@ CREATE TABLE students
   goal VARCHAR(255),
   height INTEGER DEFAULT 0,
   weight INTEGER DEFAULT 0,
+  focus VARCHAR(255),
   created_at TIMESTAMPTZ
 );
 

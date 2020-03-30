@@ -61,6 +61,8 @@ router.post("/trainers/login", (req, res) => {
     .catch(error => console.log(error));
 });
 
+
+
 router.post("/trainers/register", (req, res) => {
   const { name, email, password, about, experience, expertise } = req.body;
   pool
@@ -170,13 +172,13 @@ router.get("/students/:id", (req, res) => {
 
 router.post("/students/register", (req, res) => {
   console.log("this req.body in /register", req);
-  const { name, email, password, age, goal, height, weight } = req.body;
+  const { name, email, password, age, goal, height, weight,focus } = req.body;
   pool
     .query(
       `
-  INSERT INTO students (name, email, password, age, goal,height,weight) VALUES ($1::text, $2::text, $3::text, $4::integer, $5::text, $6::integer, $7::integer);
+  INSERT INTO students (name, email, password, age, goal,height,weight,focus) VALUES ($1::text, $2::text, $3::text, $4::integer, $5::text, $6::integer, $7::integer,$8::text);
   `,
-      [name, email, password, age, goal, height, weight]
+      [name, email, password, age, goal, height, weight,focus]
     )
     .then(() => {
       res.json("new student joined");
