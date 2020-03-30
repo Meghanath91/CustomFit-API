@@ -330,7 +330,7 @@ router.post("/custom_plans/create", (req, res) => {
   pool
     .query(
       `
-  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps, trainer_name) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer, $9::text) RETURNING trainer_name;
+  INSERT INTO custom_plans (student_id, trainer_id, title, description, difficulty, type, sets, reps, trainer_name) VALUES ($1::integer, $2::integer, $3::text, $4::text, $5::text, $6::text, $7::integer, $8::integer, $9::text) RETURNING *;
 
   `,
       [student_id, trainer_id, title, description, difficulty, type, sets, reps, trainer_name]
@@ -338,7 +338,7 @@ router.post("/custom_plans/create", (req, res) => {
     .then(data => {
       console.log("customplan created", data.rows[0].trainer_name);
       twilioCreate(data.rows[0].trainer_name)
-      res.json(data.rows[0].trainer_name);
+      res.json(data.rows[0].id);
     })
     .catch(error => console.log(error));
 });
@@ -443,11 +443,11 @@ router.get("/student/:id/exercises", (req, res) => {
   pool
     .query(
       `SELECT exercises.*
-    FROM exercises
-    JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
-    JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
-    JOIN students ON students.id = custom_plans.student_id
-  WHERE student_id = $1;
+        FROM exercises
+        JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
+        JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
+        JOIN students ON students.id = custom_plans.student_id
+      WHERE student_id = $1;
    `,
     [req.params.id]
   )

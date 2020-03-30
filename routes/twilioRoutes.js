@@ -3,7 +3,7 @@ const router = express.Router();
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 module.exports = function() {
-  // Create a new customer in db
+//it is for voice response in twilio
   router.post("/test", (req, res) => {
     const twiml = new VoiceResponse();
     twiml.say(
