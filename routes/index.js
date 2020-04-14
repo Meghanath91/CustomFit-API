@@ -260,7 +260,7 @@ router.get("/trainer/:id/subscriptions", (req, res) => {
 
 
 
-
+//post req
 router.post("/subscriptions/subscribe", (req, res) => {
   const {
     student_id,
