@@ -1,13 +1,4 @@
-const { Pool,pg } = require("pg");
-
-const client = new pg.Client({
-  connectionString: process.env.DATABASE_URL || ""
-});
-
-client
-  .connect()
-  .catch(e => console.log(`Error connecting to Postgres server:\n${e}`));
-
+const { Pool } = require("pg");
 
 //****connect database using node-postgress****//
 const pool = new Pool({
@@ -17,4 +8,4 @@ const pool = new Pool({
   database: "final",
   port: 5432
 });
-module.exports = pool,client;
+module.exports = pool;
