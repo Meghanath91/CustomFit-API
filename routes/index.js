@@ -13,7 +13,7 @@ router.post('/logout',(req,res)=>{
   res.send({});
 })
 
-
+//to get all trainers
 
 router.get("/trainers", (req, res) => {
   pool
