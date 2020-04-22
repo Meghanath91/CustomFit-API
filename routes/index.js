@@ -27,7 +27,7 @@ router.get("/trainers", (req, res) => {
     })
     .catch(error => console.log(error));
 });
-
+//to get particular trainer
 router.get("/trainers/:id", (req, res) => {
   const id = parseInt(req.params.id);
   pool
