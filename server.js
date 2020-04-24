@@ -5,10 +5,12 @@ const route = require('./routes/index')
 const cors = require('cors');
 const cookieSession = require('cookie-session')
 const twilioRoutes = require("./routes/twilioRoutes");
+const trainerRoutes = require("./routes/trainerRoutes")
+
+
 const app = express();
 const port = process.env.PORT || 8080;
-const twilioSubscribe = require("./apis/twilioSubscribe")
-const twilioCreate = require("./apis/twilioCreate")
+
 
 app.use(helmet());
 app.use(bodyParser.json());
@@ -26,8 +28,10 @@ app.use(cookieSession({
   keys: ['key1', 'key2']
 }))
 
-
+// Routes
 app.use('/', route)
+app.use('/',trainerRoutes)
+app.use
 app.use('/twilio',twilioRoutes())
 
 
