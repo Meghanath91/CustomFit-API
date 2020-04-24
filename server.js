@@ -4,8 +4,11 @@ const helmet = require('helmet');
 const route = require('./routes/index')
 const cors = require('cors');
 const cookieSession = require('cookie-session')
+
 const twilioRoutes = require("./routes/twilioRoutes");
-const trainerRoutes = require("./routes/trainerRoutes")
+const trainerRoutes = require("./routes/trainerRoutes");
+const studentRoutes = require("./routes/studentRoutes");
+const subscriptionRoutes = require("./routes/subscriptionRoutes");
 
 
 const app = express();
@@ -31,7 +34,8 @@ app.use(cookieSession({
 // Routes
 app.use('/', route)
 app.use('/',trainerRoutes)
-app.use
+app.use('/',studentRoutes)
+app.use('/',subscriptionRoutes)
 app.use('/twilio',twilioRoutes())
 
 
