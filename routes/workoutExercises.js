@@ -6,7 +6,6 @@ pool.connect();
 
 //*****************************workout_exercises***************************** */
 
-
 router.post("/workout_exercises/create", (req, res) => {
   const { custom_plan_id, exercise_id } = req.body;
   pool
@@ -21,7 +20,7 @@ router.post("/workout_exercises/create", (req, res) => {
       console.log("exercise created");
       res.json(`exercise created`);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 router.get("/workout_exercises", (req, res) => {
@@ -31,10 +30,10 @@ router.get("/workout_exercises", (req, res) => {
   SELECT * FROM workout_exercises;
   `
     )
-    .then(result => {
+    .then((result) => {
       res.json(result.rows);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 router.get("/workout_exercises/:id", (req, res) => {
@@ -46,10 +45,10 @@ router.get("/workout_exercises/:id", (req, res) => {
   `,
       [id]
     )
-    .then(result => {
+    .then((result) => {
       res.json(result.rows);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 //this route is show workout_exercises for a particular student id
@@ -65,9 +64,9 @@ router.get("/workout_exercises/:id", (req, res) => {
   `,
       [id]
     )
-    .then(result => {
+    .then((result) => {
       res.json(result.rows);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 module.exports = router;

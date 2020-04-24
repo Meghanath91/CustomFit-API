@@ -11,10 +11,10 @@ router.get("/exercises", (req, res) => {
   SELECT * FROM exercises;
   `
     )
-    .then(result => {
+    .then((result) => {
       res.json(result.rows);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 router.get("/exercises/student", (req, res) => {
@@ -28,12 +28,12 @@ router.get("/exercises/student", (req, res) => {
      `,
       [req.body.params.id]
     )
-    .then(data => {
+    .then((data) => {
       const exercises = data.rows;
       console.log("exercises passing to the front end ========>>");
       res.json(exercises);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 router.get("/student/:id/exercises", (req, res) => {
@@ -47,14 +47,14 @@ router.get("/student/:id/exercises", (req, res) => {
         JOIN students ON students.id = custom_plans.student_id
       WHERE student_id = $1;
    `,
-    [req.params.id]
-  )
-  .then(data => {
-    const exercises = data.rows;
-    console.log("exercises passing to the front end ========>>");
-    res.json(exercises);
-  })
-  .catch(error => console.log(error));
+      [req.params.id]
+    )
+    .then((data) => {
+      const exercises = data.rows;
+      console.log("exercises passing to the front end ========>>");
+      res.json(exercises);
+    })
+    .catch((error) => console.log(error));
 });
 
 router.post("/exercises/exercise", (req, res) => {
@@ -66,11 +66,11 @@ router.post("/exercises/exercise", (req, res) => {
   `,
       [req.body.params.id]
     )
-    .then(data => {
+    .then((data) => {
       console.log("exercises passing to the front end ========>>");
       res.json(data.rows);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 router.delete("/exercises/:id", (req, res) => {
@@ -85,7 +85,7 @@ router.delete("/exercises/:id", (req, res) => {
     .then(() => {
       response.json(`database:exercise ${id}deleted`);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 });
 
 module.exports = router;

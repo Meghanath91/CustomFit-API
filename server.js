@@ -11,6 +11,8 @@ const studentRoutes = require("./routes/studentRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
 const customPlanRoutes = require("./routes/customPlanRoutes");
 const exerciseRoutes = require("./routes/exerciseRoutes");
+const historyRoutes = require("./routes/historyRoutes");
+const weightRoutes = require("./routes/weightRoutes");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -32,7 +34,9 @@ app.use("/", trainerRoutes);
 app.use("/", studentRoutes);
 app.use("/", subscriptionRoutes);
 app.use("/", customPlanRoutes);
-app.use("/", exerciseRoutes)
+app.use("/", exerciseRoutes);
+app.use("/", historyRoutes);
+app.use("/", weightRoutes);
 app.use("/twilio", twilioRoutes());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
