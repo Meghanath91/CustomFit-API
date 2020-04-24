@@ -48,4 +48,4 @@ router.post("/history", (req, res) => {
     })
     .catch((error) => console.log(error));
 });
-module.exports = route;
+module.exports = router;
