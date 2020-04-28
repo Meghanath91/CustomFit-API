@@ -38,7 +38,7 @@ router.post("/feedback", (req, res) => {
   pool
     .query(
       `
-  INSERT INTO history (student_id,trainer_id, feedback_text, feedback_video) VALUES ($1::integer, $2::text, $3::text);
+  INSERT INTO feedbacks (student_id,trainer_id, feedback_text, feedback_video) VALUES ($1::integer,$2::integer, $3::text, $4::text);
 
   `,
       [student_id,trainer_id, feedback_text, feedback_video]
