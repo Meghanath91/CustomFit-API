@@ -44,7 +44,8 @@ router.post("/feedback", (req, res) => {
       [student_id,trainer_id, feedback_text, feedback_video]
     )
     .then(() => {
-      response.json(`database:feedback ${request.params.id}created`);
+      console.log("new feedback send");
+      res.json(`feedback updated in db`);
     })
     .catch((error) => console.log(error));
 });
