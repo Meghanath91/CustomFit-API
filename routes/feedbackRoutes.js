@@ -33,7 +33,7 @@ router.get("/history/:id", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.post("/history", (req, res) => {
+router.post("/feedback", (req, res) => {
   const { student_id, trainer_id, feedback_text, feedback_video } = req.body;
   pool
     .query(

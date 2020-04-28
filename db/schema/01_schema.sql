@@ -112,6 +112,8 @@ CREATE TABLE workout_exercises
 CREATE TABLE feedbacks
 (
   id SERIAL PRIMARY KEY NOT NULL,
+  student_id INTEGER,
+  trainer_id INTEGER,
   feedback_text VARCHAR(255),
   feedback_video VARCHAR(255),
   created_at TIMESTAMPTZ
