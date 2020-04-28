@@ -34,17 +34,17 @@ router.get("/history/:id", (req, res) => {
 });
 
 router.post("/history", (req, res) => {
-  const { workout_exercise_id, feedback_text, feedback_video } = req.body;
+  const { student_id, trainer_id, feedback_text, feedback_video } = req.body;
   pool
     .query(
       `
-  INSERT INTO history (workout_exercise_id, feedback_text, feedback_video) VALUES ($1::integer, $2::text, $3::text);
+  INSERT INTO history (student_id,trainer_id, feedback_text, feedback_video) VALUES ($1::integer, $2::text, $3::text);
 
   `,
-      [workout_exercise_id, feedback_text, feedback_video]
+      [student_id,trainer_id, feedback_text, feedback_video]
     )
     .then(() => {
-      response.json(`database:history ${request.params.id}created`);
+      response.json(`database:feedback ${request.params.id}created`);
     })
     .catch((error) => console.log(error));
 });

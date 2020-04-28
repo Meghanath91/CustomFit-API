@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS custom_plans
 CASCADE;
 DROP TABLE IF EXISTS workout_exercises
 CASCADE;
-DROP TABLE IF EXISTS history
+DROP TABLE IF EXISTS feedbacks
 CASCADE;
 DROP TABLE IF EXISTS exercises
 CASCADE;
@@ -109,11 +109,9 @@ CREATE TABLE workout_exercises
 
 
 
-CREATE TABLE history
+CREATE TABLE feedbacks
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  workout_exercise_id INTEGER REFERENCES workout_exercises(id) ON DELETE CASCADE,
-
   feedback_text VARCHAR(255),
   feedback_video VARCHAR(255),
   created_at TIMESTAMPTZ
