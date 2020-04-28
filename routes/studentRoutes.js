@@ -100,4 +100,27 @@ router.put("/students", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+router.get("/student/:id/trainers", (req, res) => {
+  // getting all trainers for a student by joining on subscriptions
+  pool
+    .query(
+      `SELECT DISTINCT trainers.*
+          FROM trainers
+          JOIN subscriptions ON subscriptions.trainer_id = trainers.id
+          JOIN students ON students.id = subscriptions.student_id
+        WHERE student_id = $1;
+   `,
+      [req.params.id]
+    )
+    .then((data) => {
+      const trainers = data.rows;
+      console.log("students passing to the front end");
+      res.json(trainers);
+    })
+    .catch((error) =>
+      console.log("failed to fetch all students for a trainer_id", error)
+    );
+});
+
+
 module.exports = router;

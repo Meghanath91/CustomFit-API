@@ -18,12 +18,15 @@ router.get("/history", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.get("/history/:id", (req, res) => {
+router.get("/feedback", (req, res) => {
   const id = parseInt(req.params.id);
   pool
     .query(
       `
-  SELECT * FROM history WHERE id = $1;
+      SELECT feedbacks.*
+      FROM feedbacks
+      JOIN trainers ON trainers.id = feedbacks.trainer_id
+    WHERE trainer_id = $1;
   `,
       [id]
     )

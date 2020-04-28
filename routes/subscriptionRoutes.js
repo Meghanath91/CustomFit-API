@@ -26,7 +26,7 @@ router.put("/subscriptions/:id", (req, res) => {
 });
 
 router.get("/trainer/:id/subscriptions", (req, res) => {
-  // getting all subscriptions for a student by joining on workout_exercises
+  // getting all subscriptions for a student by joining on trainers
   pool
     .query(
       `SELECT subscriptions.*
@@ -43,6 +43,26 @@ router.get("/trainer/:id/subscriptions", (req, res) => {
     })
     .catch((error) => console.log(error));
 });
+
+// router.get("/student/:id/subscriptions", (req, res) => {
+//   // getting all subscriptions for a student by joining on trainers
+//   pool
+//     .query(
+//       `SELECT subscriptions.*
+//         FROM subscriptions
+//         JOIN students ON students.id = subscriptions.student_id
+//       WHERE student_id = $1;
+//    `,
+//       [req.params.id]
+//     )
+//     .then((data) => {
+//       const subscriptions = data.rows;
+//       console.log("subscriptions passing to the front end ========>>");
+//       res.json(subscriptions);
+//     })
+//     .catch((error) => console.log(error));
+// });
+
 
 //post req
 router.post("/subscriptions/subscribe", (req, res) => {
