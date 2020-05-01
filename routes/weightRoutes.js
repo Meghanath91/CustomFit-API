@@ -16,7 +16,6 @@ router.post("/weights/create", (req, res) => {
       [student_id, weight, date]
     )
     .then(() => {
-      console.log("new weight updated");
       res.json(`weight updated in db`);
     })
     .catch((error) => console.log(error));
@@ -35,7 +34,6 @@ router.get("/student/:id/weights", (req, res) => {
     )
     .then((data) => {
       const custom_plan = data.rows;
-      console.log("custom Plan passing to the front end ========>>");
       res.json(custom_plan);
     })
     .catch((error) => console.log(error));
