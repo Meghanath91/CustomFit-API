@@ -24,9 +24,9 @@ router.get("/feedback", (req, res) => {
     .query(
       `
       SELECT feedbacks.*
-      FROM feedbacks
-      JOIN trainers ON trainers.id = feedbacks.trainer_id
-    WHERE trainer_id = $1;
+        FROM feedbacks
+        JOIN trainers ON trainers.id = feedbacks.trainer_id
+        WHERE trainer_id = $1;
   `,
       [id]
     )
@@ -44,10 +44,9 @@ router.post("/feedback", (req, res) => {
   INSERT INTO feedbacks (student_id,trainer_id, feedback_text, feedback_video) VALUES ($1::integer,$2::integer, $3::text, $4::text);
 
   `,
-      [student_id,trainer_id, feedback_text, feedback_video]
+      [student_id, trainer_id, feedback_text, feedback_video]
     )
     .then(() => {
-      console.log("new feedback send");
       res.json(`feedback updated in db`);
     })
     .catch((error) => console.log(error));
