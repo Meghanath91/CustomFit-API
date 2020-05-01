@@ -18,8 +18,6 @@ router.put("/subscriptions/:id", (req, res) => {
       [seen, req.params.id]
     )
     .then((data) => {
-      // const exercises = data.rows;
-      console.log("notifications  seen ========>>");
       res.json("seen updated");
     })
     .catch((error) => console.log(error));
@@ -38,7 +36,6 @@ router.get("/trainer/:id/subscriptions", (req, res) => {
     )
     .then((data) => {
       const exercises = data.rows;
-      console.log("subscriptions passing to the front end ========>>");
       res.json(exercises);
     })
     .catch((error) => console.log(error));
@@ -63,7 +60,6 @@ router.get("/trainer/:id/subscriptions", (req, res) => {
 //     .catch((error) => console.log(error));
 // });
 
-
 //post req
 router.post("/subscriptions/subscribe", (req, res) => {
   const { student_id, trainer_id, student_name } = req.body;
@@ -76,7 +72,6 @@ router.post("/subscriptions/subscribe", (req, res) => {
       [student_id, trainer_id, student_name]
     )
     .then((data) => {
-      console.log("new subscription created", data.rows[0].student_name);
       res.json(data.rows[0].id);
       twilioSubscribe(data.rows[0].student_name);
     })
