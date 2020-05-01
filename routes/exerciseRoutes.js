@@ -18,19 +18,17 @@ router.get("/exercises", (req, res) => {
 });
 
 router.get("/exercises/student", (req, res) => {
-  // console.log("this is req.body", req.body.params.id);
   pool
     .query(
       `SELECT exercise_id as id,custom_plan_id,sets,reps,complete,duration
-      FROM workout_exercises
-      JOIN custom_plans ON custom_plans.id = custom_plan_id
-      WHERE student_id = $1;
+        FROM workout_exercises
+        JOIN custom_plans ON custom_plans.id = custom_plan_id
+        WHERE student_id = $1;
      `,
       [req.body.params.id]
     )
     .then((data) => {
       const exercises = data.rows;
-      console.log("exercises passing to the front end ========>>");
       res.json(exercises);
     })
     .catch((error) => console.log(error));
@@ -51,14 +49,12 @@ router.get("/student/:id/exercises", (req, res) => {
     )
     .then((data) => {
       const exercises = data.rows;
-      console.log("exercises passing to the front end ========>>");
       res.json(exercises);
     })
     .catch((error) => console.log(error));
 });
 
 router.post("/exercises/exercise", (req, res) => {
-  // const id = parseInt(req.params.id);
   pool
     .query(
       `
@@ -67,7 +63,6 @@ router.post("/exercises/exercise", (req, res) => {
       [req.body.params.id]
     )
     .then((data) => {
-      console.log("exercises passing to the front end ========>>");
       res.json(data.rows);
     })
     .catch((error) => console.log(error));
