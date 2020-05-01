@@ -8,18 +8,18 @@ pool.connect();
 
 //************************************custom_plans***************************** */
 
-router.get("/custom_plans", (req, res) => {
-  pool
-    .query(
-      `
-  SELECT * FROM custom_plans;
-  `
-    )
-    .then((result) => {
-      res.json(result.rows);
-    })
-    .catch((error) => console.log(error));
-});
+// router.get("/custom_plans", (req, res) => {
+//   pool
+//     .query(
+//       `
+//   SELECT * FROM custom_plans;
+//   `
+//     )
+//     .then((result) => {
+//       res.json(result.rows);
+//     })
+//     .catch((error) => console.log(error));
+// });
 
 router.get("/custom_plans/:id", (req, res) => {
   const id = parseInt(req.params.id);
@@ -92,6 +92,8 @@ router.get("/student/:id/custom_plans", (req, res) => {
     })
     .catch((error) => console.log(error));
 });
+
+
 router.get("/custom_plan/:id/exercises", (req, res) => {
   // getting all exercises for a custom_plan by joining on custom_plans
   pool
