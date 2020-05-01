@@ -67,7 +67,6 @@ router.post("/custom_plans/create", (req, res) => {
       ]
     )
     .then((data) => {
-      console.log("customplan created", data.rows[0].trainer_name);
       res.json(data.rows[0].id);
       twilioCreate(data.rows[0].trainer_name);
     })
@@ -87,37 +86,31 @@ router.get("/student/:id/custom_plans", (req, res) => {
     )
     .then((data) => {
       const custom_plan = data.rows;
-      console.log("custom Plan passing to the front end ========>>");
       res.json(custom_plan);
     })
     .catch((error) => console.log(error));
 });
-
 
 router.get("/custom_plan/:id/exercises", (req, res) => {
   // getting all exercises for a custom_plan by joining on custom_plans
   pool
     .query(
       `SELECT exercises.*
-      FROM exercises
-      JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
-      JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
-
-    WHERE custom_plan_id = $1;
+        FROM exercises
+        JOIN workout_exercises ON workout_exercises.exercise_id = exercises.id
+        JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
+        WHERE custom_plan_id = $1;
    `,
       [req.params.id]
     )
     .then((data) => {
       const exercises = data.rows;
-      console.log("custom Plan exercises passing to the frontend ========>>");
       res.json(exercises);
     })
     .catch((error) => console.log(error));
 });
 
 router.put("/custom_plans", (req, res) => {
-  // const id = parseInt(req.params.id);
-  console.log(req.body);
   const { complete, id } = req.body;
   pool
     .query(
@@ -127,7 +120,6 @@ router.put("/custom_plans", (req, res) => {
       [complete, id]
     )
     .then((result) => {
-      console.log("custom plan completed", result);
       res.json(`customplan completed`);
     })
     .catch((error) => console.log(error));
