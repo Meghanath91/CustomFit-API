@@ -26,9 +26,7 @@ router.post("/students/login", (req, res) => {
       if (data.rows.length === 1) {
         //check password data.rows with bcrypt
         const user = data.rows[0];
-
         req.session.user_id = user.id;
-
         res.json(user);
       } else {
         res.status(401);
@@ -75,16 +73,11 @@ router.post("/students/register", (req, res) => {
     )
     .then(() => {
       res.json("new student joined");
-      console.log("new student joined to db");
-      // res.json(`student ${request.body.id}created`);
     })
     .catch((error) => console.log(error));
 });
 
 router.put("/students", (req, res) => {
-  // const id = parseInt(req.params.id);
-
-  console.log("this is req.body", req.body);
   const { name, goal, height, weight, id } = req.body;
   pool
     .query(
@@ -94,7 +87,6 @@ router.put("/students", (req, res) => {
       [name, goal, height, weight, id]
     )
     .then((result) => {
-      console.log("student details updated", result);
       res.json(`student details updated`);
     })
     .catch((error) => console.log(error));
@@ -114,13 +106,11 @@ router.get("/student/:id/trainers", (req, res) => {
     )
     .then((data) => {
       const trainers = data.rows;
-      console.log("students passing to the front end");
       res.json(trainers);
     })
     .catch((error) =>
       console.log("failed to fetch all students for a trainer_id", error)
     );
 });
-
 
 module.exports = router;
