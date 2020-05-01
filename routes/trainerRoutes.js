@@ -43,7 +43,6 @@ router.post("/trainers/login", (req, res) => {
         const user = data.rows[0];
         req.session.user_id = user.id;
         res.json(user);
-        console.log("trainer loggedin");
       } else {
         res.status(401).send("Unauthorized");
       }
@@ -70,14 +69,13 @@ router.post("/trainers/register", (req, res) => {
     )
     .then(() => {
       res.json("new trainer registered");
-      console.log("new trainer register");
     })
     .catch((error) => console.log(error));
 });
 
 router.put("/trainers", (req, res) => {
   const { name, about, experience, id } = req.body;
-  console.log("name is", name, id);
+
   pool
     .query(
       `
@@ -86,7 +84,6 @@ router.put("/trainers", (req, res) => {
       [name, about, experience, id]
     )
     .then((result) => {
-      console.log("trainer details updated", result);
       res.json(`trainer details updated`);
     })
     .catch((error) => console.log(error));
@@ -106,7 +103,7 @@ router.get("/trainer/:id/students", (req, res) => {
     )
     .then((data) => {
       const students = data.rows;
-      console.log("students passing to the front end");
+
       res.json(students);
     })
     .catch((error) =>
