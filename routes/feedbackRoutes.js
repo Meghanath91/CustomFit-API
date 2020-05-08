@@ -5,21 +5,11 @@ const pool = require("../db/index");
 pool.connect();
 
 //****************************history*************************************** */
-router.get("/history", (req, res) => {
-  pool
-    .query(
-      `
-  SELECT * FROM history;
-  `
-    )
-    .then((result) => {
-      res.json(result.rows);
-    })
-    .catch((error) => console.log(error));
-});
 
-router.get("/feedback", (req, res) => {
-  const id = parseInt(req.params.id);
+
+router.get("/trainer/:id/feedbacks", (req, res) => {
+  console.log("====================>")
+
   pool
     .query(
       `
@@ -28,13 +18,17 @@ router.get("/feedback", (req, res) => {
         JOIN trainers ON trainers.id = feedbacks.trainer_id
         WHERE trainer_id = $1;
   `,
-      [id]
+      [req.params.id]
     )
-    .then((result) => {
-      res.json(result.rows);
+    .then((data) => {
+      console.log(res.data)
+      res.json(data.rows);
     })
     .catch((error) => console.log(error));
 });
+
+
+
 
 router.post("/feedback", (req, res) => {
   const { student_id, trainer_id, feedback_text, feedback_video } = req.body;
