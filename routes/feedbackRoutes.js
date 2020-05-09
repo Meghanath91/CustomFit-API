@@ -21,7 +21,7 @@ router.get("/trainer/:id/feedbacks", (req, res) => {
       [req.params.id]
     )
     .then((data) => {
-      console.log(res.data)
+
       res.json(data.rows);
     })
     .catch((error) => console.log(error));
