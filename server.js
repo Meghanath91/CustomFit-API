@@ -1,9 +1,11 @@
+//importing all middleware requirements
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
+//importing all routes
 const route = require("./routes/index");
 const twilioRoutes = require("./routes/twilioRoutes");
 const trainerRoutes = require("./routes/trainerRoutes");
@@ -14,13 +16,18 @@ const exerciseRoutes = require("./routes/exerciseRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const weightRoutes = require("./routes/weightRoutes");
 
+//initialising objects and port
 const app = express();
 const port = process.env.PORT || 8080;
 
+//helmet is middleware for Http response headers
 app.use(helmet());
+//middleware to parse the incoming request bodies.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+//Cross-origin-resource-sharing will allow ajax requests to skip the same-origin-policy and access resources from reomte hosts
 app.use(cors({ origin: true, credentials: true }));
+//middleware to setup cookie session in browser
 app.use(
   cookieSession({
     name: "session",
