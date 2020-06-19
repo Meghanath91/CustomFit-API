@@ -8,8 +8,6 @@ pool.connect();
 
 
 router.get("/trainer/:id/feedbacks", (req, res) => {
-  console.log("====================>")
-
   pool
     .query(
       `
@@ -27,6 +25,24 @@ router.get("/trainer/:id/feedbacks", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+router.get("/student/:id/feedbacks", (req, res) => {
+
+  pool
+    .query(
+      `
+      SELECT feedbacks.*
+        FROM feedbacks
+        JOIN students ON students.id = feedbacks.student_id
+        WHERE student_id = $1;
+  `,
+      [req.params.id]
+    )
+    .then((data) => {
+
+      res.json(data.rows);
+    })
+    .catch((error) => console.log(error));
+});
 
 
 
