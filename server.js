@@ -15,6 +15,7 @@ const customPlanRoutes = require("./routes/customPlanRoutes");
 const exerciseRoutes = require("./routes/exerciseRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const weightRoutes = require("./routes/weightRoutes");
+const workoutExerciseRoutes = require("./routes/workoutExercises");
 
 //initialising objects and port
 const app = express();
@@ -39,6 +40,7 @@ app.use(
 app.use("/", route);
 app.use("/", trainerRoutes);
 app.use("/", studentRoutes);
+app.use("/", workoutExerciseRoutes);
 app.use("/", subscriptionRoutes);
 app.use("/", customPlanRoutes);
 app.use("/", exerciseRoutes);

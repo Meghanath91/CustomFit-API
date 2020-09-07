@@ -54,7 +54,9 @@ router.post("/custom_plans/create", (req, res) => {
       ]
     )
     .then((data) => {
-      res.json(data.rows[0].id);
+      //response to frontend with custom_Plan_id
+      const responseData = data.rows[0].id;
+      res.json(responseData);
       twilioCreate(data.rows[0].trainer_name);
     })
     .catch((error) => console.log(error));
@@ -79,6 +81,8 @@ router.get("/student/:id/custom_plans", (req, res) => {
 });
 
 router.get("/custom_plan/:id/exercises", (req, res) => {
+  const customPlanId = req.params.id;
+  console.log("id in server", req.params.id, typeof req.params.id);
   // getting all exercises for a custom_plan by joining on custom_plans
   pool
     .query(
@@ -88,7 +92,7 @@ router.get("/custom_plan/:id/exercises", (req, res) => {
         JOIN custom_plans ON custom_plans.id = workout_exercises.custom_plan_id
         WHERE custom_plan_id = $1;
    `,
-      [req.params.id]
+      [customPlanId]
     )
     .then((data) => {
       const exercises = data.rows;
